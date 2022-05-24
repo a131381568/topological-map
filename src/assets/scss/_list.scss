@@ -1,0 +1,28 @@
+.ap-list-table.table {
+  thead {
+    @extend %darkBg;
+    @extend %whiteColor;
+    border: none;
+    th {
+      @extend %h7;
+      font-weight: 300;
+      border: none;
+      height: 1.5rem;
+    }
+  }
+  tbody {
+    border: none;
+    tr {
+      td {
+        @extend %h7;
+        height: 1.5rem;
+        .svg-icon-outer {
+          height: 1.5rem;
+          .svg-icon {
+            fill: $sub-color;
+          }
+        }
+      }
+    }
+  }
+}

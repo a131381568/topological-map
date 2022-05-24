@@ -1,0 +1,19 @@
+header {
+  padding: 1rem 0;
+  border-bottom: 2px solid $dark-color;
+  .svg-logo {
+    height: 80px;
+    margin-bottom: 0.5rem;
+    polygon {
+      fill: $sub-color;
+    }
+  }
+  .navbar-nav {
+    .nav-item {
+      @extend %h4;
+      @extend %fontFamEn;
+      margin-right: 2rem;
+      text-transform: uppercase;
+    }
+  }
+}
