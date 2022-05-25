@@ -11,8 +11,21 @@ export const useStore = defineStore("main", {
     version: versionString,
     isInitialized: false,
     count: 0,
+    groupConversion: [
+      {
+        groupId: "city-university",
+        groupName: "城市大學",
+      },
+      {
+        groupId: "first-net",
+        groupName: "第一網絡",
+      },
+      {
+        groupId: "home-test",
+        groupName: "家用測試",
+      },
+    ],
   }),
-
   actions: {
     initApp() {
       this.isInitialized = true;
@@ -40,20 +53,23 @@ export const useStore = defineStore("main", {
       }
       return display;
     },
-    // changeCatName(array: ArtistsCategories, catId: string) {
-    //   const searchCatAct = array.filter(
-    //     (item) => item.post_category_id === catId
-    //   );
-    //   if (searchCatAct.length > 0) {
-    //     return String(searchCatAct[0].post_category_name);
-    //   } else {
-    //     return "";
-    //   }
-    // }
+    changeGroupName(groupId: string) {
+      const searchCatAct = this.groupConversion.filter(
+        (item) => item.groupId === groupId
+      );
+      if (searchCatAct.length > 0) {
+        return String(searchCatAct[0].groupName);
+      } else {
+        return "";
+      }
+    },
   },
   getters: {
     isReady: (state) => {
       return !state.isInitialized;
+    },
+    get_groupConversion: (state) => {
+      return state.groupConversion;
     },
   },
 });

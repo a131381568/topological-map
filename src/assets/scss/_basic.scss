@@ -79,6 +79,30 @@ html {
           text-decoration: none;
         }
       }
+      .add-btn {
+        @extend %darkBg;
+        @extend %whiteColor;
+        border-radius: 50%;
+        font-size: 20px;
+        height: 40px;
+        width: 40px;
+        line-height: 20px;
+        &:hover {
+          @extend %spBg;
+          @extend %darkColor;
+        }
+      }
+      .load-more-btn {
+        @extend %darkBg;
+        @extend %whiteColor;
+        font-weight: 300;
+        width: 20%;
+        max-width: 260px;
+        &:hover {
+          @extend %spBg;
+          @extend %darkColor;
+        }
+      }
       & > .container-fluid {
         width: 100%;
         height: auto;
@@ -88,8 +112,8 @@ html {
       // 容器設定
       main {
         // min-height: 900px;
-        padding: 5rem 0;
-        min-height: calc(100vh - 161px - 53px);
+        padding: 4rem 5rem 0;
+        min-height: calc(100vh - 151px - 53px);
       }
     }
   }

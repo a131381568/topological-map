@@ -1,4 +1,5 @@
 .ap-list-table.table {
+  margin-bottom: 0;
   thead {
     @extend %darkBg;
     @extend %whiteColor;
@@ -18,12 +19,21 @@
         height: 1.5rem;
         border-color: $gray-color;
         .svg-icon-outer {
+          cursor: pointer;
           height: 1.5rem;
           .svg-icon {
             fill: $sub-color;
+          }
+          &:hover {
+            .svg-icon {
+              fill: $sp-color;
+            }
           }
         }
       }
     }
   }
+}
+.load-more-outer {
+  margin-top: 2.5rem;
 }

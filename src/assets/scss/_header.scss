@@ -1,6 +1,6 @@
 header {
   padding: 1rem 0;
-  border-bottom: 2px solid $dark-color;
+  border-bottom: 1px solid $gray-color;
   .svg-logo {
     height: 80px;
     margin-bottom: 0.5rem;
@@ -10,8 +10,9 @@ header {
   }
   .navbar-nav {
     .nav-item {
-      @extend %h4;
+      @extend %h5;
       @extend %fontFamEn;
+      font-weight: 700;
       margin-right: 2rem;
       text-transform: uppercase;
     }

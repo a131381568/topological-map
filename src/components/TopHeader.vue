@@ -1016,7 +1016,7 @@
         <li class="nav-item">
           <router-link to="/list">List</router-link>
         </li>
-        <li class="nav-item"><router-link to="/">Group</router-link></li>
+        <li class="nav-item"><router-link to="/group">Group</router-link></li>
       </ul>
     </div>
   </header>

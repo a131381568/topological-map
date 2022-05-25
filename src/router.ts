@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Index from "@/pages/Index.vue";
 import List from "@/pages/List.vue";
 import SingleTopo from "@/pages/SingleTopo.vue";
+import Group from "@/pages/Group.vue";
 
 const routes = [
   {
@@ -23,6 +24,13 @@ const routes = [
     component: SingleTopo,
     meta: {
       title: "Topological Map Edit",
+    },
+  },
+  {
+    path: "/group",
+    component: Group,
+    meta: {
+      title: "Group",
     },
   },
 ];

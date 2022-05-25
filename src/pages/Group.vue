@@ -1,34 +1,23 @@
 <template>
   <main>
     <div class="d-flex justify-content-end mb-3">
-      <button
-        type="button"
-        class="btn add-btn"
-        data-bs-toggle="modal"
-        data-bs-target="#staticBackdrop"
-      >
-        +
-      </button>
+      <button type="button" class="btn add-btn">+</button>
     </div>
     <table class="table ap-list-table">
       <thead>
         <tr>
-          <th scope="col">代號</th>
-          <th scope="col">名稱</th>
-          <th scope="col">群組</th>
-          <th scope="col">新增時間</th>
+          <th scope="col">群組代號</th>
+          <th scope="col">群組名稱</th>
           <th scope="col">編輯</th>
           <th scope="col">刪除</th>
         </tr>
       </thead>
       <tbody class="border-0">
-        <tr v-for="(value, key) in listData" :key="key">
-          <td>{{ value.id }}</td>
-          <td>{{ value.title }}</td>
-          <td>{{ store.changeGroupName(value.groupId) }}</td>
-          <td>{{ store.changeDate(value.time) }}</td>
+        <tr v-for="(value, key) in store.get_groupConversion" :key="key">
+          <td>{{ value.groupId }}</td>
+          <td>{{ value.groupName }}</td>
           <td>
-            <router-link :to="'/topo-edit/' + value.id">
+            <a>
               <svg
                 class="svg-icon-outer"
                 xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +30,7 @@
                   />
                 </g>
               </svg>
-            </router-link>
+            </a>
           </td>
           <td>
             <svg
@@ -60,44 +49,6 @@
         </tr>
       </tbody>
     </table>
-    <!-- <div class="d-flex justify-content-center load-more-outer">
-      <button type="button" class="btn load-more-btn">載入更多</button>
-    </div> -->
-    <!-- Modal -->
-    <div
-      id="staticBackdrop"
-      class="modal fade"
-      data-bs-backdrop="static"
-      data-bs-keyboard="false"
-      tabindex="-1"
-      aria-labelledby="staticBackdropLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 id="staticBackdropLabel" class="modal-title">Modal title</h5>
-            <button
-              type="button"
-              class="btn-close"
-              data-bs-dismiss="modal"
-              aria-label="Close"
-            ></button>
-          </div>
-          <div class="modal-body">...</div>
-          <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-            <button type="button" class="btn btn-primary">Understood</button>
-          </div>
-        </div>
-      </div>
-    </div>
   </main>
 </template>
 <script setup lang="ts">

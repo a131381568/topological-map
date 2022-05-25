@@ -11,7 +11,7 @@
             :key="key"
             class="floor d-flex justify-content-between align-items-center"
           >
-            <div class="floor-title d-flex justify-content-left h6 mb-0">
+            <div class="floor-title d-flex h6 mb-0 wdwdwdwd">
               {{ key }}
             </div>
             <div class="floor-content d-flex justify-content-around">
@@ -48,17 +48,18 @@
   </div>
 </template>
 <script setup lang="ts">
+import { groupListDataType, listDataType } from "@/type/types";
 import * as d3 from "d3";
 
-type groupListDataType = { [index: string]: listDataType };
-type listDataType = {
-  id: string;
-  title: string;
-  floor: string;
-  time: number;
-  groupId: string;
-  link: string[];
-}[];
+// type groupListDataType = { [index: string]: listDataType };
+// type listDataType = {
+//   id: string;
+//   title: string;
+//   floor: string;
+//   time: number;
+//   groupId: string;
+//   link: string[];
+// }[];
 
 const listData = ref<listDataType>([
   {
