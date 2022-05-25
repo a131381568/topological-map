@@ -49,7 +49,18 @@
 </template>
 <script setup lang="ts">
 import * as d3 from "d3";
-let listData = ref([
+
+type groupListDataType = { [index: string]: listDataType };
+type listDataType = {
+  id: string;
+  title: string;
+  floor: string;
+  time: number;
+  groupId: string;
+  link: string[];
+}[];
+
+const listData = ref<listDataType>([
   {
     id: "ap1126",
     title: "教學樓",
@@ -64,7 +75,7 @@ let listData = ref([
     floor: "cat001",
     time: 1653344580000,
     groupId: "city-university",
-    link: ["ap1130", "ap1131"],
+    link: ["ap1126", "ap1131"],
   },
   {
     id: "ap1128",
@@ -141,22 +152,36 @@ let listData = ref([
 ]);
 
 const groupByCategory = ref(
-  listData.value.reduce((accumulator, currentValue) => {
+  listData.value.reduce((accumulator: groupListDataType, currentValue) => {
     const { floor } = currentValue;
-    accumulator[floor] = accumulator[floor] ?? [];
-    accumulator[floor].push(currentValue);
+    accumulator[`${floor}`] = accumulator[`${floor}`] ?? [];
+    accumulator[`${floor}`].push(currentValue);
     return accumulator;
   }, {})
 );
 
 onMounted(() => {
-  const boardWidth = document.querySelector(".topology-container").offsetWidth;
-  const boardDomRect = document
-    .querySelector(".topology-container")
-    .getBoundingClientRect();
+  // 宣告畫布
+  const topoDom: HTMLElement | null = document.querySelector(
+    ".topology-container"
+  );
+  let boardWidth = 0;
+  let boardDomRect = {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  };
+  if (topoDom !== null) {
+    boardWidth = topoDom.offsetWidth;
+    boardDomRect = topoDom.getBoundingClientRect();
+  }
   const boardDomRectTop = boardDomRect.top;
   const boardDomRectLeft = boardDomRect.left;
-
   const svgboard = d3
     .select(".topology-container")
     .append("svg")
@@ -165,7 +190,7 @@ onMounted(() => {
     .attr("height", Object.keys(groupByCategory.value).length * 180)
     .attr("preserveAspectRatio", "xMinYMin slice");
 
-  //箭頭
+  // 定義箭頭樣式
   svgboard.append("defs");
   const defs = svgboard.append("defs");
   const arrowMarker = defs
@@ -184,6 +209,7 @@ onMounted(() => {
     .attr("d", "M 0 0 L 10 5 L 0 10 z")
     .attr("fill", "#bed441");
 
+  // 針對取得資料繪製線條
   listData.value.forEach((item) => {
     // 取得自己的座標
     let positionInfo = getPosition("." + item.id);
@@ -202,26 +228,29 @@ onMounted(() => {
     }
   });
 
-  function getPosition(className) {
-    let element = document.querySelector(className);
-    let rect = element.getBoundingClientRect();
-    let x = rect.x;
-    let y = rect.y;
-
-    // let x = 0;
-    // let y = 0;
-    // while (element) {
-    //   x += element.offsetLeft - element.scrollLeft + element.clientLeft;
-    //   y += element.offsetTop - element.scrollLeft + element.clientTop;
-    //   element = element.offsetParent;
-    // }
-
-    // console.log("x: ", x, " y: ", y, "className: ", className);
-
+  function getPosition(className: string) {
+    let element: HTMLElement | null = document.querySelector(className);
+    let rect = {
+      x: 0,
+      y: 0,
+      width: 0,
+      height: 0,
+      top: 0,
+      right: 0,
+      bottom: 0,
+      left: 0,
+    };
+    let x = 0;
+    let y = 0;
+    if (element !== null) {
+      rect = element.getBoundingClientRect();
+      x = rect.x;
+      y = rect.y;
+    }
     return { x: x, y: y };
   }
 
-  function drawLineAct(x, y, ownX, ownY) {
+  function drawLineAct(x: number, y: number, ownX: number, ownY: number) {
     const drawLine = svgboard.append("line");
     drawLine.attr("marker-end", "url(#arrow-dom)");
     drawLine.attr("stroke-width", 1);
