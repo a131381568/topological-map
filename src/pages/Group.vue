@@ -23,12 +23,13 @@
           <td>{{ value.groupId }}</td>
           <td>{{ value.groupName }}</td>
           <td>
-            <button
+            <!-- <button
               class="btn"
               @click.prevent="
                 handelOpenEditModal(value.groupId, value.groupName)
               "
-            >
+            > -->
+            <router-link :to="'/topo-edit/' + value.groupId">
               <svg
                 class="svg-icon-outer"
                 xmlns="http://www.w3.org/2000/svg"
@@ -41,7 +42,7 @@
                   />
                 </g>
               </svg>
-            </button>
+            </router-link>
           </td>
           <td>
             <button
@@ -291,13 +292,13 @@ const editGroupAct = () => {
     handelCloseEditModal();
   }
 };
-const handelOpenEditModal = (groupId: string, groupName: string) => {
-  if (editGroupModal.value !== null) {
-    actionEditGroupId.value = groupId;
-    editGroupNameVal.value = groupName;
-    editGroupModal.value.show();
-  }
-};
+// const handelOpenEditModal = (groupId: string, groupName: string) => {
+//   if (editGroupModal.value !== null) {
+//     actionEditGroupId.value = groupId;
+//     editGroupNameVal.value = groupName;
+//     editGroupModal.value.show();
+//   }
+// };
 const handelCloseEditModal = () => {
   if (editGroupModal.value !== null) {
     actionEditGroupId.value = "";

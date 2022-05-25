@@ -162,73 +162,7 @@ const groupByCategory = ref(
 );
 
 onMounted(() => {
-  // 宣告畫布
-  const topoDom: HTMLElement | null = document.querySelector(
-    ".topology-container"
-  );
-  let boardWidth = 0;
-  let boardDomRect = {
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-  };
-  if (topoDom !== null) {
-    boardWidth = topoDom.offsetWidth;
-    boardDomRect = topoDom.getBoundingClientRect();
-  }
-  const boardDomRectTop = boardDomRect.top;
-  const boardDomRectLeft = boardDomRect.left;
-  const svgboard = d3
-    .select(".topology-container")
-    .append("svg")
-    .attr("id", "svgboard")
-    .attr("width", boardWidth)
-    .attr("height", Object.keys(groupByCategory.value).length * 180)
-    .attr("preserveAspectRatio", "xMinYMin slice");
-
-  // 定義箭頭樣式
-  svgboard.append("defs");
-  const defs = svgboard.append("defs");
-  const arrowMarker = defs
-    .append("marker")
-    .attr("id", "arrow-dom")
-    .attr("class", "link_node_some_arrow")
-    .attr("markerUnits", "userSpaceOnUse")
-    .attr("markerWidth", "30")
-    .attr("markerHeight", "30")
-    .attr("viewBox", "0 0 30 30")
-    .attr("refX", "6")
-    .attr("refY", "6")
-    .attr("orient", "auto");
-  arrowMarker
-    .append("path")
-    .attr("d", "M 0 0 L 10 5 L 0 10 z")
-    .attr("fill", "#bed441");
-
-  // 針對取得資料繪製線條
-  listData.value.forEach((item) => {
-    // 取得自己的座標
-    let positionInfo = getPosition("." + item.id);
-    if (item.link.length > 0) {
-      item.link.forEach((linkItem) => {
-        // 取得連線座標
-        let linkpositionInfo = getPosition("." + linkItem);
-        // 畫線
-        drawLineAct(
-          linkpositionInfo.x,
-          linkpositionInfo.y,
-          positionInfo.x,
-          positionInfo.y
-        );
-      });
-    }
-  });
-
+  // 取得座標函式
   const getPosition = (className: string) => {
     let element: HTMLElement | null = document.querySelector(className);
     let rect = {
@@ -250,7 +184,7 @@ onMounted(() => {
     }
     return { x: x, y: y };
   };
-
+  // 畫線函式
   const drawLineAct = (x: number, y: number, ownX: number, ownY: number) => {
     const drawLine = svgboard.append("line");
     drawLine.attr("marker-end", "url(#arrow-dom)");
@@ -317,5 +251,72 @@ onMounted(() => {
     //   drawLine.attr("y2", y - boardDomRectTop + 90 + 30);
     // }
   };
+
+  // 宣告畫布
+  const topoDom: HTMLElement | null = document.querySelector(
+    ".topology-container"
+  );
+  let boardWidth = 0;
+  let boardDomRect = {
+    x: 0,
+    y: 0,
+    width: 0,
+    height: 0,
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  };
+  if (topoDom !== null) {
+    boardWidth = topoDom.offsetWidth;
+    boardDomRect = topoDom.getBoundingClientRect();
+  }
+  const boardDomRectTop = boardDomRect.top;
+  const boardDomRectLeft = boardDomRect.left;
+  const svgboard = d3
+    .select(".topology-container")
+    .append("svg")
+    .attr("id", "svgboard")
+    .attr("width", boardWidth)
+    .attr("height", Object.keys(groupByCategory.value).length * 180)
+    .attr("preserveAspectRatio", "xMinYMin slice");
+
+  // 定義箭頭樣式
+  svgboard.append("defs");
+  const defs = svgboard.append("defs");
+  const arrowMarker = defs
+    .append("marker")
+    .attr("id", "arrow-dom")
+    .attr("class", "link_node_some_arrow")
+    .attr("markerUnits", "userSpaceOnUse")
+    .attr("markerWidth", "30")
+    .attr("markerHeight", "30")
+    .attr("viewBox", "0 0 30 30")
+    .attr("refX", "6")
+    .attr("refY", "6")
+    .attr("orient", "auto");
+  arrowMarker
+    .append("path")
+    .attr("d", "M 0 0 L 10 5 L 0 10 z")
+    .attr("fill", "#bed441");
+
+  // 針對取得資料繪製線條
+  listData.value.forEach((item) => {
+    // 取得自己的座標
+    let positionInfo = getPosition("." + item.id);
+    if (item.link.length > 0) {
+      item.link.forEach((linkItem) => {
+        // 取得連線座標
+        let linkpositionInfo = getPosition("." + linkItem);
+        // 畫線
+        drawLineAct(
+          linkpositionInfo.x,
+          linkpositionInfo.y,
+          positionInfo.x,
+          positionInfo.y
+        );
+      });
+    }
+  });
 });
 </script>
