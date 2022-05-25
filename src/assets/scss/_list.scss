@@ -16,6 +16,7 @@
       td {
         @extend %h7;
         height: 1.5rem;
+        border-color: $gray-color;
         .svg-icon-outer {
           height: 1.5rem;
           .svg-icon {

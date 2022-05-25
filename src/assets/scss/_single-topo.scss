@@ -9,9 +9,10 @@
     left: 0;
     .floor {
       height: 180px;
-      border-bottom: 1px solid $dark-color;
+      border-bottom: 1px solid $gray-color;
       .floor-title {
         width: 10%;
+        font-weight: 700;
       }
       .floor-content {
         width: 90%;
