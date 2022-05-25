@@ -63,6 +63,27 @@ export const useStore = defineStore("main", {
         return "";
       }
     },
+    addGroupToList(groupId: string, groupName: string) {
+      const groupInfo = {
+        groupId: groupId,
+        groupName: groupName,
+      };
+      this.groupConversion.push(groupInfo);
+    },
+    delGroupToList(groupId: string) {
+      const remainder = this.groupConversion.filter(
+        (item) => item.groupId !== groupId
+      );
+      this.groupConversion = remainder;
+    },
+    editGroupToList(groupId: string, groupName: string) {
+      this.groupConversion.forEach((item) => {
+        if (item.groupId === groupId) {
+          item.groupName = groupName;
+        }
+      });
+      // this.groupConversion = remainder;
+    },
   },
   getters: {
     isReady: (state) => {

@@ -229,7 +229,7 @@ onMounted(() => {
     }
   });
 
-  function getPosition(className: string) {
+  const getPosition = (className: string) => {
     let element: HTMLElement | null = document.querySelector(className);
     let rect = {
       x: 0,
@@ -249,9 +249,9 @@ onMounted(() => {
       y = rect.y;
     }
     return { x: x, y: y };
-  }
+  };
 
-  function drawLineAct(x: number, y: number, ownX: number, ownY: number) {
+  const drawLineAct = (x: number, y: number, ownX: number, ownY: number) => {
     const drawLine = svgboard.append("line");
     drawLine.attr("marker-end", "url(#arrow-dom)");
     drawLine.attr("stroke-width", 1);
@@ -316,6 +316,6 @@ onMounted(() => {
     //   drawLine.attr("x2", x - boardDomRectLeft + 90);
     //   drawLine.attr("y2", y - boardDomRectTop + 90 + 30);
     // }
-  }
+  };
 });
 </script>

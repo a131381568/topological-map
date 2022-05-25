@@ -1013,10 +1013,10 @@
       <ul class="navbar-nav">
         <li class="nav-item"><router-link to="/">Home</router-link></li>
         <li class="nav-item"><router-link to="/">About</router-link></li>
+        <li class="nav-item"><router-link to="/group">Group</router-link></li>
         <li class="nav-item">
           <router-link to="/list">List</router-link>
         </li>
-        <li class="nav-item"><router-link to="/group">Group</router-link></li>
       </ul>
     </div>
   </header>
