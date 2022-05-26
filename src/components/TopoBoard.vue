@@ -232,7 +232,7 @@ const topoBoardInit = () => {
 };
 
 watch(
-  () => store.get_groupByCategory,
+  () => store.get_singleTopoListData,
   () => {
     // console.log(val, old);
     topoBoardInit();

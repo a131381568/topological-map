@@ -232,6 +232,9 @@ export const useStore = defineStore("main", {
       floorId: string,
       link: string[]
     ) {
+      const allNodeList: listDataType = await JSON.parse(
+        JSON.stringify(this.singleTopoListData)
+      );
       const itemId = await this.genNonDuplicateID(7);
       // const floorId = await this.genNonDuplicateID(5);
       const newTopoItem = await {
@@ -242,16 +245,35 @@ export const useStore = defineStore("main", {
         groupId: groupId,
         link: link,
       };
-      await this.singleTopoListData.push(newTopoItem);
+      await allNodeList.push(newTopoItem);
+      this.singleTopoListData = await allNodeList;
+    },
+    editLinkInNode(nodeId: string, link: string[]) {
+      const allNodeList: listDataType = JSON.parse(
+        JSON.stringify(this.singleTopoListData)
+      );
+      allNodeList.forEach((item) => {
+        if (item.id === nodeId) {
+          // const oriLinkList = item.link;
+          // const newLinkList = oriLinkList.concat(link);
+          // item.link = newLinkList;
+          item.link = link;
+        }
+      });
+      this.singleTopoListData = allNodeList;
     },
     addLinkInNode(nodeId: string, link: string[]) {
-      this.singleTopoListData.forEach((item) => {
+      const allNodeList: listDataType = JSON.parse(
+        JSON.stringify(this.singleTopoListData)
+      );
+      allNodeList.forEach((item) => {
         if (item.id === nodeId) {
           const oriLinkList = item.link;
           const newLinkList = oriLinkList.concat(link);
           item.link = newLinkList;
         }
       });
+      this.singleTopoListData = allNodeList;
     },
   },
   getters: {
@@ -259,16 +281,20 @@ export const useStore = defineStore("main", {
       return !state.isInitialized;
     },
     get_groupConversion: (state) => {
+      // console.log("get_groupConversion");
       return state.groupConversion;
     },
     get_singleTopoListData: (state) => {
-      return state.singleTopoListData;
+      // console.log("get_singleTopoListData");
+      const result = state.singleTopoListData;
+      return result;
     },
     get_singleTopoListLength: (state) => {
+      // console.log("get_singleTopoListLength");
       return state.singleTopoListData.length;
     },
     get_groupByCategory: (state) => {
-      console.log("update??");
+      // console.log("get_groupByCategory");
       const catResult = state.singleTopoListData.reduce(
         (accumulator: groupListDataType, currentValue) => {
           const { floor } = currentValue;

@@ -39,7 +39,8 @@
                       <!-- 連線項目 -->
                       <span class="topo-node-title h8">連線項目</span>
                       <!-- 新增連線 -->
-                      <!-- <button
+                      <!-- 需開啟燈箱，點選確定後新增 -->
+                      <button
                         class="add-node-link-item h8"
                         @click.prevent="
                           addLinkItem(nodeItem.id, nodeItem.link.length, [
@@ -48,41 +49,7 @@
                         "
                       >
                         Link
-                      </button> -->
-
-                      <div class="dropdown">
-                        <button
-                          id="add-link-dropdown-btn"
-                          class="btn btn-secondary dropdown-toggle"
-                          type="button"
-                          data-bs-toggle="dropdown"
-                          aria-expanded="false"
-                        >
-                          選擇節點
-                        </button>
-                        <ul
-                          class="dropdown-menu"
-                          aria-labelledby="add-link-dropdown-btn"
-                        >
-                          <li>
-                            <a
-                              v-for="(nodeLink, nodeLinkIndex) in canLinkMenu(
-                                nodeItem.id,
-                                nodeItem.link
-                              )"
-                              :key="nodeLinkIndex"
-                              class="dropdown-item"
-                              @click="
-                                addLinkItem(nodeItem.id, nodeItem.link.length, [
-                                  nodeLink,
-                                ])
-                              "
-                            >
-                              {{ nodeLink }}</a
-                            >
-                          </li>
-                        </ul>
-                      </div>
+                      </button>
                     </div>
                     <ul class="topo-node-link-list">
                       <li
@@ -90,7 +57,42 @@
                         :key="linkKey"
                         class="topo-node-link-item h8"
                       >
-                        {{ linkItem }}
+                        <!-- {{ linkItem }} -->
+                        <div class="dropdown">
+                          <button
+                            id="add-link-dropdown-btn"
+                            class="btn btn-secondary dropdown-toggle"
+                            type="button"
+                            data-bs-toggle="dropdown"
+                            aria-expanded="false"
+                          >
+                            {{ linkItem }}
+                          </button>
+                          <ul
+                            class="dropdown-menu"
+                            aria-labelledby="add-link-dropdown-btn"
+                          >
+                            <li>
+                              <a
+                                v-for="(nodeLink, nodeLinkIndex) in canLinkMenu(
+                                  nodeItem.id,
+                                  nodeItem.link
+                                )"
+                                :key="nodeLinkIndex"
+                                class="dropdown-item"
+                                @click="
+                                  editLinkItem(
+                                    nodeItem.id,
+                                    nodeItem.link.length,
+                                    [nodeLink]
+                                  )
+                                "
+                              >
+                                {{ nodeLink }}</a
+                              >
+                            </li>
+                          </ul>
+                        </div>
                       </li>
                     </ul>
                   </div>
@@ -124,7 +126,7 @@ const canLinkMenu = (ownNodeId: string, ownlink: string[]) => {
   const excludeList = ownlink.concat([ownNodeId]);
   for (let i = 0; i < excludeList.length; i++) {
     for (let j = 0; j < allList.length; j++) {
-      if (allList[j] == excludeList[i]) {
+      if (allList[Number(j)] === excludeList[Number(i)]) {
         allList.splice(j, 1);
         j = j - 1;
       }
@@ -146,9 +148,20 @@ const addFloorAct = (
 };
 
 const addLinkItem = (nodeId: string, nowLinkLength: number, link: string[]) => {
-  console.log(nowLinkLength);
+  // console.log(nowLinkLength);
   if (store.get_singleTopoListLength - 1 > nowLinkLength) {
     store.addLinkInNode(nodeId, link);
+  }
+};
+
+const editLinkItem = (
+  nodeId: string,
+  nowLinkLength: number,
+  link: string[]
+) => {
+  // console.log(nowLinkLength);
+  if (store.get_singleTopoListLength - 1 > nowLinkLength) {
+    store.editLinkInNode(nodeId, link);
   }
 };
 </script>
