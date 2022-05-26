@@ -1,322 +1,154 @@
 <template>
-  <div class="container relative">
-    <main>
-      <div
-        class="topology-container"
-        :style="{ height: Object.keys(groupByCategory).length * 180 + 'px' }"
-      >
-        <div class="floor-container">
-          <div
+  <main class="d-flex justify-content-between container-fluid">
+    <TopoBoard class="w-75"></TopoBoard>
+    <div class="w-25 topo-edit-dashboard">
+      <div class="topo-floor-container">
+        <!-- 階層區塊 -->
+        <ul class="topo-floor-list">
+          <li
             v-for="(value, key) in groupByCategory"
             :key="key"
-            class="floor d-flex justify-content-between align-items-center"
+            class="topo-floor-item"
           >
-            <div class="floor-title d-flex h6 mb-0 wdwdwdwd">
-              {{ key }}
-            </div>
-            <div class="floor-content d-flex justify-content-around">
-              <div
-                v-for="(inneritem, innerkey) in value"
-                :key="innerkey"
-                class="server-item text-center"
+            <div class="topo-floor-header d-flex justify-content-between">
+              <!-- 階層標題 -->
+              <h6 class="topo-floor-title">{{ key }}</h6>
+              <!-- 新增階層 -->
+              <button
+                class="add-topo-floor"
+                @click.prevent="
+                  addFloorAct('服務器', String(key), [], value.length)
+                "
               >
-                <div :class="['server-item-bg', inneritem.id]">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 64 64"
-                    class="server-icon"
-                  >
-                    <g id="server-icon-inner">
-                      <path
-                        d="M57,5H7A1,1,0,0,0,6,6V34a1,1,0,0,0,1,1H57a1,1,0,0,0,1-1V6A1,1,0,0,0,57,5ZM56,33H8V7H56Z"
-                      />
-                      <path
-                        d="M57,1H7A5.0059,5.0059,0,0,0,2,6V42a5.0059,5.0059,0,0,0,5,5H24v4H14a1,1,0,0,0-.8945.5527l-5,10A1,1,0,0,0,9,63H55a1,1,0,0,0,.8945-1.4473l-5-10A1,1,0,0,0,50,51H40V47H57a5.0059,5.0059,0,0,0,5-5V6A5.0059,5.0059,0,0,0,57,1ZM4,6A3.0033,3.0033,0,0,1,7,3H57a3.0033,3.0033,0,0,1,3,3V37H4ZM38,52a6.0066,6.0066,0,0,0,6,6,1,1,0,0,0,0-2,3.9958,3.9958,0,0,1-3.858-3h9.24l4,8H10.6182l4-8h9.24A3.9958,3.9958,0,0,1,20,56a1,1,0,0,0,0,2,6.0066,6.0066,0,0,0,6-6V47H38ZM60,42a3.0033,3.0033,0,0,1-3,3H7a3.0033,3.0033,0,0,1-3-3V39H60Z"
-                      />
-                      <path d="M7,43h6a1,1,0,0,0,0-2H7a1,1,0,0,0,0,2Z" />
-                      <path d="M16,43h2a1,1,0,0,0,0-2H16a1,1,0,0,0,0,2Z" />
-                    </g>
-                  </svg>
-                </div>
-                <div class="h8 server-item-name mt-1">{{ inneritem.id }}</div>
-              </div>
+                +
+              </button>
             </div>
-          </div>
-        </div>
+            <div class="topo-node-container">
+              <!-- 節點列表 -->
+              <ol class="topo-node-list">
+                <li
+                  v-for="(nodeItem, nodeKey) in value"
+                  :key="nodeKey"
+                  class="topo-node-item"
+                >
+                  <span class="topo-node-title h7">{{ nodeItem.title }}</span>
+                  <div class="topo-node-link-container">
+                    <div
+                      class="topo-node-header d-flex justify-content-between"
+                    >
+                      <!-- 連線項目 -->
+                      <span class="topo-node-title h8">連線項目</span>
+                      <!-- 新增連線 -->
+                      <!-- <button
+                        class="add-node-link-item h8"
+                        @click.prevent="
+                          addLinkItem(nodeItem.id, nodeItem.link.length, [
+                            'ap1129',
+                          ])
+                        "
+                      >
+                        Link
+                      </button> -->
+
+                      <div class="dropdown">
+                        <button
+                          id="add-link-dropdown-btn"
+                          class="btn btn-secondary dropdown-toggle"
+                          type="button"
+                          data-bs-toggle="dropdown"
+                          aria-expanded="false"
+                        >
+                          選擇節點
+                        </button>
+                        <ul
+                          class="dropdown-menu"
+                          aria-labelledby="add-link-dropdown-btn"
+                        >
+                          <li>
+                            <a
+                              v-for="(nodeLink, nodeLinkIndex) in canLinkMenu(
+                                nodeItem.id,
+                                nodeItem.link
+                              )"
+                              :key="nodeLinkIndex"
+                              class="dropdown-item"
+                              @click="
+                                addLinkItem(nodeItem.id, nodeItem.link.length, [
+                                  nodeLink,
+                                ])
+                              "
+                            >
+                              {{ nodeLink }}</a
+                            >
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <ul class="topo-node-link-list">
+                      <li
+                        v-for="(linkItem, linkKey) in nodeItem.link"
+                        :key="linkKey"
+                        class="topo-node-link-item h8"
+                      >
+                        {{ linkItem }}
+                      </li>
+                    </ul>
+                  </div>
+                </li>
+              </ol>
+            </div>
+          </li>
+        </ul>
       </div>
-    </main>
-  </div>
+    </div>
+  </main>
 </template>
 <script setup lang="ts">
-import { groupListDataType, listDataType } from "@/type/types";
-import * as d3 from "d3";
-
-// type groupListDataType = { [index: string]: listDataType };
-// type listDataType = {
-//   id: string;
-//   title: string;
-//   floor: string;
-//   time: number;
-//   groupId: string;
-//   link: string[];
-// }[];
-
-const listData = ref<listDataType>([
-  {
-    id: "ap1126",
-    title: "教學樓",
-    floor: "cat001",
-    time: 1653344520000,
-    groupId: "city-university",
-    link: ["ap1130"],
-  },
-  {
-    id: "ap1127",
-    title: "宿舍樓",
-    floor: "cat001",
-    time: 1653344580000,
-    groupId: "city-university",
-    link: ["ap1126", "ap1131"],
-  },
-  {
-    id: "ap1128",
-    title: "辦公樓",
-    floor: "cat001",
-    time: 1653344640000,
-    groupId: "city-university",
-    link: ["ap1132"],
-  },
-  {
-    id: "ap1129",
-    title: "活動樓",
-    floor: "cat001",
-    time: 1653344700000,
-    groupId: "city-university",
-    link: ["ap1133"],
-  },
-  {
-    id: "ap1130",
-    title: "教學樓中繼",
-    floor: "cat002",
-    time: 1653344760000,
-    groupId: "city-university",
-    link: ["ap1134"],
-  },
-  {
-    id: "ap1131",
-    title: "宿舍樓中繼",
-    floor: "cat002",
-    time: 1653344820000,
-    groupId: "city-university",
-    link: ["ap1134"],
-  },
-  {
-    id: "ap1132",
-    title: "辦公樓中繼",
-    floor: "cat002",
-    time: 1653344880000,
-    groupId: "city-university",
-    link: ["ap1135"],
-  },
-  {
-    id: "ap1133",
-    title: "活動樓中繼",
-    floor: "cat002",
-    time: 1653344940000,
-    groupId: "city-university",
-    link: ["ap1135"],
-  },
-  {
-    id: "ap1134",
-    title: "內部服務",
-    floor: "cat003",
-    time: 1653345000000,
-    groupId: "city-university",
-    link: ["ap1136"],
-  },
-  {
-    id: "ap1135",
-    title: "外部服務",
-    floor: "cat003",
-    time: 1653345060000,
-    groupId: "city-university",
-    link: ["ap1136"],
-  },
-  {
-    id: "ap1136",
-    title: "總服務器",
-    floor: "cat004",
-    time: 1653345120000,
-    groupId: "city-university",
-    link: [],
-  },
-]);
-
-const groupByCategory = ref(
-  listData.value.reduce((accumulator: groupListDataType, currentValue) => {
-    const { floor } = currentValue;
-    accumulator[`${floor}`] = accumulator[`${floor}`] ?? [];
-    accumulator[`${floor}`].push(currentValue);
-    return accumulator;
-  }, {})
+const route = useRoute();
+const store = useStore();
+const groupByCategory = computed(() => store.get_groupByCategory);
+const groupByCategoryLength = computed(
+  () => Object.keys(groupByCategory).length
 );
 
-onMounted(() => {
-  // 取得座標函式
-  const getPosition = (className: string) => {
-    let element: HTMLElement | null = document.querySelector(className);
-    let rect = {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-    };
-    let x = 0;
-    let y = 0;
-    if (element !== null) {
-      rect = element.getBoundingClientRect();
-      x = rect.x;
-      y = rect.y;
-    }
-    return { x: x, y: y };
-  };
-  // 畫線函式
-  const drawLineAct = (x: number, y: number, ownX: number, ownY: number) => {
-    const drawLine = svgboard.append("line");
-    drawLine.attr("marker-end", "url(#arrow-dom)");
-    drawLine.attr("stroke-width", 1);
-    drawLine.attr("stroke", "#bed441");
-    drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    drawLine.attr("x2", x - boardDomRectLeft + 45);
-    drawLine.attr("y2", y - boardDomRectTop + 45);
-    // // ↑
-    // if (ownY > y && ownX === x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 45);
-    //   drawLine.attr("y2", y - boardDomRectTop + 90 + 30);
-    // }
-    // // ↗
-    // if (ownY > y && ownX < x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 0);
-    //   drawLine.attr("y2", y - boardDomRectTop + 90 + 30);
-    // }
-    // // →
-    // if (ownY === y && ownX < x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft - 15);
-    //   drawLine.attr("y2", y - boardDomRectTop + 45);
-    // }
-    // // ↘
-    // if (ownY < y && ownX < x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 20);
-    //   drawLine.attr("y2", y - boardDomRectTop - 10);
-    // }
-    // // ↓
-    // if (ownY < y && ownX === x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 45);
-    //   drawLine.attr("y2", y - boardDomRectTop - 10);
-    // }
-    // // ↙
-    // if (ownY < y && ownX > x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 65);
-    //   drawLine.attr("y2", y - boardDomRectTop - 10);
-    // }
-    // // ←
-    // if (ownY === y && ownX > x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 90 + 15);
-    //   drawLine.attr("y2", y - boardDomRectTop + 45);
-    // }
-    // // ↖
-    // if (ownY > y && ownX > x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 90);
-    //   drawLine.attr("y2", y - boardDomRectTop + 90 + 30);
-    // }
-  };
-
-  // 宣告畫布
-  const topoDom: HTMLElement | null = document.querySelector(
-    ".topology-container"
-  );
-  let boardWidth = 0;
-  let boardDomRect = {
-    x: 0,
-    y: 0,
-    width: 0,
-    height: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-  };
-  if (topoDom !== null) {
-    boardWidth = topoDom.offsetWidth;
-    boardDomRect = topoDom.getBoundingClientRect();
-  }
-  const boardDomRectTop = boardDomRect.top;
-  const boardDomRectLeft = boardDomRect.left;
-  const svgboard = d3
-    .select(".topology-container")
-    .append("svg")
-    .attr("id", "svgboard")
-    .attr("width", boardWidth)
-    .attr("height", Object.keys(groupByCategory.value).length * 180)
-    .attr("preserveAspectRatio", "xMinYMin slice");
-
-  // 定義箭頭樣式
-  svgboard.append("defs");
-  const defs = svgboard.append("defs");
-  const arrowMarker = defs
-    .append("marker")
-    .attr("id", "arrow-dom")
-    .attr("class", "link_node_some_arrow")
-    .attr("markerUnits", "userSpaceOnUse")
-    .attr("markerWidth", "30")
-    .attr("markerHeight", "30")
-    .attr("viewBox", "0 0 30 30")
-    .attr("refX", "6")
-    .attr("refY", "6")
-    .attr("orient", "auto");
-  arrowMarker
-    .append("path")
-    .attr("d", "M 0 0 L 10 5 L 0 10 z")
-    .attr("fill", "#bed441");
-
-  // 針對取得資料繪製線條
-  listData.value.forEach((item) => {
-    // 取得自己的座標
-    let positionInfo = getPosition("." + item.id);
-    if (item.link.length > 0) {
-      item.link.forEach((linkItem) => {
-        // 取得連線座標
-        let linkpositionInfo = getPosition("." + linkItem);
-        // 畫線
-        drawLineAct(
-          linkpositionInfo.x,
-          linkpositionInfo.y,
-          positionInfo.x,
-          positionInfo.y
-        );
-      });
-    }
+const allCanLinktMenu = computed(() => {
+  const strMenu = <string[]>[];
+  store.get_singleTopoListData.forEach((item) => {
+    strMenu.push(item.id);
   });
+  return strMenu;
 });
+
+const canLinkMenu = (ownNodeId: string, ownlink: string[]) => {
+  const allList = JSON.parse(JSON.stringify(allCanLinktMenu.value));
+  const excludeList = ownlink.concat([ownNodeId]);
+  for (let i = 0; i < excludeList.length; i++) {
+    for (let j = 0; j < allList.length; j++) {
+      if (allList[j] == excludeList[i]) {
+        allList.splice(j, 1);
+        j = j - 1;
+      }
+    }
+  }
+  return allList;
+};
+
+const addFloorAct = (
+  nodeTitle: string,
+  floorId: string,
+  link: string[],
+  itemLength: number
+) => {
+  // console.log(itemLength);
+  if (route.params.tid && itemLength < 8) {
+    store.addItemInGroup(String(route.params.tid), nodeTitle, floorId, link);
+  }
+};
+
+const addLinkItem = (nodeId: string, nowLinkLength: number, link: string[]) => {
+  console.log(nowLinkLength);
+  if (store.get_singleTopoListLength - 1 > nowLinkLength) {
+    store.addLinkInNode(nodeId, link);
+  }
+};
 </script>

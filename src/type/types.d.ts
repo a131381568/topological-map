@@ -10,3 +10,8 @@ export type listDataType = {
 export type groupListDataType = {
   [index: string]: listDataType;
 };
+
+export type groupConversionType = {
+  groupId: string;
+  groupName: string;
+}[];

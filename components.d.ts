@@ -2,17 +2,15 @@
 // We suggest you to commit this file into source control
 // Read more: https://github.com/vuejs/vue-next/pull/3399
 
-declare module '@vue/runtime-core' {
+declare module "@vue/runtime-core" {
   export interface GlobalComponents {
-    BottomFooter: typeof import('./src/components/BottomFooter.vue')['default']
-    Header: typeof import('./src/components/Header.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
-    'HelloWorld - 複製': typeof import('./src/components/HelloWorld - 複製.vue')['default']
-    RouterLink: typeof import('vue-router')['RouterLink']
-    RouterView: typeof import('vue-router')['RouterView']
-    TopHeader: typeof import('./src/components/TopHeader.vue')['default']
-    'TopHeader - 複製': typeof import('./src/components/TopHeader - 複製.vue')['default']
+    BottomFooter: typeof import("./src/components/BottomFooter.vue")["default"];
+    HelloWorld: typeof import("./src/components/HelloWorld.vue")["default"];
+    RouterLink: typeof import("vue-router")["RouterLink"];
+    RouterView: typeof import("vue-router")["RouterView"];
+    TopHeader: typeof import("./src/components/TopHeader.vue")["default"];
+    TopoBoard: typeof import("./src/components/TopoBoard.vue")["default"];
   }
 }
 
-export { }
+export {};

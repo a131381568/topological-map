@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid p-0 my-0 mx-auto">
     <TopHeader></TopHeader>
-    <router-view class="container my-0 mx-auto"></router-view>
+    <router-view class="my-0 mx-auto"></router-view>
     <BottomFooter></BottomFooter>
   </div>
 </template>

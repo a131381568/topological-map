@@ -91,7 +91,7 @@
                 >群組名稱</span
               >
               <input
-                v-model="addGroupIdVal"
+                v-model="addGroupNameVal"
                 type="text"
                 class="form-control"
                 aria-label="sizing-input-name"
@@ -103,7 +103,7 @@
                 >群組代號</span
               >
               <input
-                v-model="addGroupNameVal"
+                v-model="addGroupIdVal"
                 type="text"
                 class="form-control"
                 aria-label="sizing-input-id"
@@ -241,8 +241,15 @@ const addGroupAct = () => {
   const nameInputCheck =
     addGroupNameVal.value.replace(/(^s*)|(s*$)/g, "").length === 0;
   if (!idInputCheck && !nameInputCheck) {
-    store.addGroupToList(addGroupIdVal.value, addGroupNameVal.value);
-    handelCloseAddModal();
+    // 檢查 GroupId 是否重複
+    if (store.checkGroupIdIsRepeat(addGroupIdVal.value)) {
+      // console.log("有重複");
+    } else {
+      // console.log("沒有重複");
+      // 確定新增
+      store.addGroupToList(addGroupIdVal.value, addGroupNameVal.value);
+      handelCloseAddModal();
+    }
   }
 };
 const handelOpenAddModal = () => {
