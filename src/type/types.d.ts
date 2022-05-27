@@ -15,3 +15,8 @@ export type groupConversionType = {
   groupId: string;
   groupName: string;
 }[];
+
+export type floorConversionType = {
+  floorId: string;
+  floorName: string;
+}[];

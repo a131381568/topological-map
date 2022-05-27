@@ -3,6 +3,7 @@ import {
   groupConversionType,
   listDataType,
   groupListDataType,
+  floorConversionType,
 } from "@/type/types";
 
 const versionString =
@@ -119,37 +120,23 @@ export const useStore = defineStore("main", {
         groupId: "city-university",
         link: [],
       },
+    ],
+    floorConversion: <floorConversionType>[
       {
-        id: "nn63rwf5u6xc",
-        title: "服務器",
-        floor: "cat002",
-        time: 1653597446034,
-        groupId: "wdwd",
-        link: [],
+        floorId: "cat001",
+        floorName: "使用者",
       },
       {
-        id: "n4j9pei2bad4",
-        title: "服務器",
-        floor: "cat002",
-        time: 1653597451065,
-        groupId: "wdwd",
-        link: [],
+        floorId: "cat002",
+        floorName: "中繼站",
       },
       {
-        id: "nd8vl6ibuzco",
-        title: "服務器",
-        floor: "cat002",
-        time: 1653597749622,
-        groupId: "wdwd",
-        link: [],
+        floorId: "cat003",
+        floorName: "管理員",
       },
       {
-        id: "nr9b3vlwywxc",
-        title: "服務器",
-        floor: "cat002",
-        time: 1653598609201,
-        groupId: "wdwd",
-        link: [],
+        floorId: "cat004",
+        floorName: "主系統",
       },
     ],
   }),
@@ -193,6 +180,26 @@ export const useStore = defineStore("main", {
         return String(searchCatAct[0].groupName);
       } else {
         return "";
+      }
+    },
+    changeFloorName(floorId: string) {
+      const searchFloorAct = this.floorConversion.filter(
+        (item) => item.floorId === floorId
+      );
+      if (searchFloorAct.length > 0) {
+        return String(searchFloorAct[0].floorName);
+      } else {
+        return "新階層";
+      }
+    },
+    changeNodeName(nodeId: string) {
+      const searchNodeAct = this.singleTopoListData.filter(
+        (item) => item.id === nodeId
+      );
+      if (searchNodeAct.length > 0) {
+        return String(searchNodeAct[0].title);
+      } else {
+        return "節點";
       }
     },
     checkGroupIdIsRepeat(groupId: string) {
@@ -248,7 +255,7 @@ export const useStore = defineStore("main", {
       await allNodeList.push(newTopoItem);
       this.singleTopoListData = await allNodeList;
     },
-    editLinkInNode(nodeId: string, link: string[]) {
+    editLinkInNode(nodeId: string, link: string) {
       const allNodeList: listDataType = JSON.parse(
         JSON.stringify(this.singleTopoListData)
       );
@@ -257,23 +264,49 @@ export const useStore = defineStore("main", {
           // const oriLinkList = item.link;
           // const newLinkList = oriLinkList.concat(link);
           // item.link = newLinkList;
-          item.link = link;
+          item.link = [link];
         }
       });
       this.singleTopoListData = allNodeList;
     },
-    addLinkInNode(nodeId: string, link: string[]) {
+    addLinkInNode(nodeId: string, link: string) {
       const allNodeList: listDataType = JSON.parse(
         JSON.stringify(this.singleTopoListData)
       );
       allNodeList.forEach((item) => {
         if (item.id === nodeId) {
           const oriLinkList = item.link;
-          const newLinkList = oriLinkList.concat(link);
+          const newLinkList = oriLinkList.concat([link]);
           item.link = newLinkList;
         }
       });
       this.singleTopoListData = allNodeList;
+    },
+    async addFloorInGroup(groupId: string, floorName: string) {
+      const allNodeList: listDataType = await JSON.parse(
+        JSON.stringify(this.singleTopoListData)
+      );
+      const itemId = await this.genNonDuplicateID(7);
+      const floorId = await this.genNonDuplicateID(5);
+      const newTopoItem = await {
+        id: "n" + itemId,
+        title: "服務器",
+        floor: floorId,
+        time: new Date().getTime(),
+        groupId: groupId,
+        link: [],
+      };
+      await allNodeList.push(newTopoItem);
+      this.singleTopoListData = await allNodeList;
+      // 新增至階層對照表
+      const floorIdNameList = await JSON.parse(
+        JSON.stringify(this.floorConversion)
+      );
+      await floorIdNameList.push({
+        floorId: floorId,
+        floorName: floorName,
+      });
+      this.floorConversion = await floorIdNameList;
     },
   },
   getters: {

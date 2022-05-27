@@ -10,7 +10,7 @@
         class="floor d-flex justify-content-between align-items-center"
       >
         <div class="floor-title d-flex h6 mb-0 wdwdwdwd">
-          {{ key }}
+          {{ store.changeFloorName(String(key)) }}
         </div>
         <div class="floor-content d-flex justify-content-around">
           <div
@@ -36,7 +36,7 @@
                 </g>
               </svg>
             </div>
-            <div class="h8 server-item-name mt-1">{{ inneritem.id }}</div>
+            <div class="h8 server-item-name mt-1">{{ inneritem.title }}</div>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@ const store = useStore();
 const listData = computed(() => store.get_singleTopoListData);
 const groupByCategory = computed(() => store.get_groupByCategory);
 const groupByCategoryLength = computed(
-  () => Object.keys(groupByCategory).length
+  () => Object.keys(store.get_groupByCategory).length
 );
 
 const topoBoardInit = () => {
