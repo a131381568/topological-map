@@ -60,7 +60,7 @@
 </template>
 <script setup lang="ts">
 import { listDataType } from "@/type/types";
-// import { topoList } from "@/api/user";
+import { topoList } from "@/api/user";
 // const route = useRoute();
 const store = useStore();
 
@@ -68,12 +68,12 @@ onMounted(() => {
   //
 });
 const listData = ref<listDataType>([]);
-// const getApList = async () => {
-//   let res = await topoList();
-//   // console.log(res);
-//   listData.value = res.data.data;
-// };
-// getApList();
+const getApList = async () => {
+  let res = await topoList();
+  // console.log(res);
+  listData.value = res.data.data;
+};
+getApList();
 </script>
 <style scoped lang="scss">
 // .ap-list {

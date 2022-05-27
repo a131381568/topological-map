@@ -18,15 +18,17 @@
           >
             <div class="topo-floor-header d-flex justify-content-between">
               <!-- 階層標題 -->
-              <h6 class="topo-floor-title">{{ key }}</h6>
+              <h6 class="topo-floor-title">
+                {{ store.changeFloorName(String(key)) }}
+              </h6>
               <!-- 新增階層 -->
               <button
                 class="add-topo-floor h8"
                 @click.prevent="
-                  addServerAct('服務器', String(key), [], value.length)
+                  handelOpenAddNodeModal(String(key), value.length)
                 "
               >
-                新增服務器
+                新增節點
               </button>
             </div>
             <div class="topo-node-container">
@@ -55,7 +57,7 @@
                           )
                         "
                       >
-                        新增節點連線
+                        新增連線
                       </button>
                     </div>
                     <ul class="topo-node-link-list">
@@ -67,7 +69,7 @@
                         <div class="dropdown">
                           <button
                             id="add-link-dropdown-btn"
-                            class="btn btn-secondary dropdown-toggle"
+                            class="btn btn-secondary dropdown-toggle h8"
                             type="button"
                             data-bs-toggle="dropdown"
                             aria-expanded="false"
@@ -85,12 +87,13 @@
                                   nodeItem.link
                                 )"
                                 :key="nodeLinkIndex"
-                                class="dropdown-item"
+                                class="dropdown-item h8"
                                 @click="
                                   editLinkItem(
                                     nodeItem.id,
                                     nodeItem.link.length,
-                                    nodeLink
+                                    nodeLink,
+                                    linkItem
                                   )
                                 "
                               >
@@ -231,6 +234,58 @@
         </div>
       </div>
     </div>
+    <!-- Add Node Modal -->
+    <div
+      id="add-node-modal"
+      ref="addNodeModalRef"
+      class="modal fade"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="add-node-modal-label" class="modal-title">新增節點</h5>
+            <button
+              type="button"
+              class="btn-close"
+              @click.prevent="handelCloseAddNodeModal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <span id="inputGroup-sizing-floor-name" class="input-group-text"
+                >節點名稱</span
+              >
+              <input
+                v-model="actionAddNodeNameVal"
+                type="text"
+                class="form-control"
+                aria-label="sizing-input-node-name"
+                aria-describedby="inputGroup-sizing-node-name"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              @click.prevent="handelCloseAddNodeModal"
+            >
+              取消
+            </button>
+            <button
+              type="button"
+              class="btn sub-bg text-white"
+              @click.prevent="addNodeItemAct"
+            >
+              確定
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 <script setup lang="ts">
@@ -256,14 +311,18 @@ const addServerAct = (
 };
 
 // 切換連線
-const editLinkItem = (nodeId: string, nowLinkLength: number, link: string) => {
+const editLinkItem = (
+  nodeId: string,
+  nowLinkLength: number,
+  link: string,
+  oriLink: string
+) => {
   if (store.get_singleTopoListLength - 1 > nowLinkLength) {
-    store.editLinkInNode(nodeId, link);
+    store.editLinkInNode(nodeId, link, oriLink);
   }
 };
 
 // ====================== 新增節點連線相關 ======================
-
 const allCanLinktMenu = computed(() => {
   const strMenu = <string[]>[];
   store.get_singleTopoListData.forEach((item) => {
@@ -363,6 +422,38 @@ const addFloorItemAct = () => {
   }
 };
 
+// ====================== 新增節點相關 ======================
+const addNodeModalRef = ref<HTMLElement | null>(null);
+const addNodeModal = ref<Modal | null>(null);
+const actionAddNodeNameVal = ref<string>("");
+const actionAddNodeInFloorId = ref<string>("");
+const handelOpenAddNodeModal = (floorId: string, nodeListLength: number) => {
+  if (addNodeModal.value !== null && route.params.tid && nodeListLength < 8) {
+    actionAddNodeInFloorId.value = floorId;
+    addNodeModal.value.show();
+  }
+};
+const handelCloseAddNodeModal = () => {
+  if (addNodeModal.value !== null) {
+    addNodeModal.value.hide();
+    actionAddNodeNameVal.value = "";
+    actionAddNodeInFloorId.value = "";
+  }
+};
+const addNodeItemAct = () => {
+  const nodeNameValCheck =
+    actionAddNodeNameVal.value.replace(/(^s*)|(s*$)/g, "").length === 0;
+  if (!nodeNameValCheck) {
+    store.addItemInGroup(
+      String(route.params.tid),
+      actionAddNodeNameVal.value,
+      actionAddNodeInFloorId.value,
+      []
+    );
+    handelCloseAddNodeModal();
+  }
+};
+
 onMounted(() => {
   // 燈箱初始化
   if (addLinkModalRef.value !== null) {
@@ -370,6 +461,9 @@ onMounted(() => {
   }
   if (addFloorModalRef.value !== null) {
     addFloorModal.value = new Modal(addFloorModalRef.value);
+  }
+  if (addNodeModalRef.value !== null) {
+    addNodeModal.value = new Modal(addNodeModalRef.value);
   }
 });
 </script>

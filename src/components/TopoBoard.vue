@@ -231,6 +231,32 @@ const topoBoardInit = () => {
   }, 300);
 };
 
+// 節流
+const flag = ref(true);
+type GreetFunction = () => void;
+const throttled = (fn: GreetFunction, delay: number) => {
+  let timer: ReturnType<typeof setTimeout>;
+  let starttime = Date.now();
+  return () => {
+    if (!flag.value) return false;
+    let curTime = Date.now(); // 當前時間
+    let remaining = delay - (curTime - starttime); // 從上一次到現在，還剩下多少多餘時間
+    const vm = this;
+    // const args = arguments;
+    clearTimeout(timer);
+    if (remaining <= 0) {
+      fn.apply(vm); // ,args
+      starttime = Date.now();
+    } else {
+      timer = setTimeout(fn, remaining);
+    }
+  };
+};
+
+const onResize = () => {
+  topoBoardInit();
+};
+
 watch(
   () => store.get_singleTopoListData,
   () => {
@@ -240,6 +266,13 @@ watch(
 );
 
 onMounted(() => {
+  flag.value = true;
+  window.addEventListener("resize", throttled(onResize, 1000), false);
   topoBoardInit();
+});
+
+onBeforeUnmount(() => {
+  flag.value = false;
+  window.removeEventListener("resize", onResize, false);
 });
 </script>

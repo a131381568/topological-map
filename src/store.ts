@@ -255,16 +255,22 @@ export const useStore = defineStore("main", {
       await allNodeList.push(newTopoItem);
       this.singleTopoListData = await allNodeList;
     },
-    editLinkInNode(nodeId: string, link: string) {
+    editLinkInNode(nodeId: string, link: string, PreviousLink: string) {
       const allNodeList: listDataType = JSON.parse(
         JSON.stringify(this.singleTopoListData)
       );
       allNodeList.forEach((item) => {
         if (item.id === nodeId) {
-          // const oriLinkList = item.link;
-          // const newLinkList = oriLinkList.concat(link);
-          // item.link = newLinkList;
-          item.link = [link];
+          const oriLinkList = item.link;
+          if (oriLinkList.length === 1) {
+            item.link = [link];
+          } else {
+            const order = oriLinkList.indexOf(PreviousLink);
+            if (order > -1) {
+              oriLinkList.splice(order, 1, link);
+              item.link = oriLinkList;
+            }
+          }
         }
       });
       this.singleTopoListData = allNodeList;

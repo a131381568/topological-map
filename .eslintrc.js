@@ -38,6 +38,13 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     "comma-dangle": ["error", "only-multiline"],
     "@typescript-eslint/explicit-modult-boundary-types": "off",
+    "@typescript-eslint/no-this-alias": [
+      "error",
+      {
+        "allowDestructuring": true,
+        "allowedNames": ["vm"]
+      }
+    ]
   },
   globals: {
     defineProps: "readonly",
