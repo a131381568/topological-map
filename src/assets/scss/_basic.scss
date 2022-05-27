@@ -79,6 +79,25 @@ html {
           text-decoration: none;
         }
       }
+      .btn {
+        &:focus {
+          box-shadow: none;
+        }
+      }
+      .dropdown-item {
+        &:hover {
+          @extend %darkBg;
+          @extend %spColor;
+        }
+        &.active {
+          @extend %darkBg;
+          @extend %spColor;
+        }
+        &:active {
+          @extend %darkBg;
+          @extend %spColor;
+        }
+      }
       .add-btn {
         @extend %darkBg;
         @extend %whiteColor;
@@ -103,6 +122,12 @@ html {
           @extend %darkColor;
         }
       }
+      .form-control {
+        &:focus {
+          box-shadow: none;
+          border-color: $gray-color;
+        }
+      }
       & > .container-fluid {
         width: 100%;
         height: auto;
@@ -112,7 +137,7 @@ html {
       // 容器設定
       main {
         // min-height: 900px;
-        padding: 4rem 5rem 0;
+        padding: 4rem 5rem;
         min-height: calc(100vh - 151px - 53px);
       }
     }

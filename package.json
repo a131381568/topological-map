@@ -23,7 +23,8 @@
     "gsap": "^3.10.4",
     "pinia": "~2.0",
     "vue": "~3.2",
-    "vue-router": "~4.0"
+    "vue-router": "~4.0",
+    "vue3-perfect-scrollbar": "^1.6.0"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.17.0",

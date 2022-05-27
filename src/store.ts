@@ -18,18 +18,18 @@ export const useStore = defineStore("main", {
     isInitialized: false,
     count: 0,
     groupConversion: <groupConversionType>[
-      // {
-      //   groupId: "city-university",
-      //   groupName: "城市大學",
-      // },
-      // {
-      //   groupId: "first-net",
-      //   groupName: "第一網絡",
-      // },
-      // {
-      //   groupId: "home-test",
-      //   groupName: "家用測試",
-      // },
+      {
+        groupId: "city-university",
+        groupName: "城市大學",
+      },
+      {
+        groupId: "first-net",
+        groupName: "第一網絡",
+      },
+      {
+        groupId: "home-test",
+        groupName: "家用測試",
+      },
     ],
     singleTopoListData: <listDataType>[
       {
@@ -256,15 +256,6 @@ export const useStore = defineStore("main", {
       this.singleTopoListData = await allNodeList;
     },
     async removeItemInGroup(nodeId: string) {
-      // const allNodeList: listDataType = JSON.parse(
-      //   JSON.stringify(this.singleTopoListData)
-      // );
-      // allNodeList.forEach((item, order) => {
-      //   if (item.id === nodeId) {
-      //     // const order = oriLinkList.indexOf(PreviousLink);
-      //     oriLinkList.splice(order, 1);
-      //   }
-      // });
       let ownFloorId = "";
       const newArrayList = this.singleTopoListData.filter((item) => {
         // 移除節點內的 nodeId
@@ -364,6 +355,18 @@ export const useStore = defineStore("main", {
         floorName: floorName,
       });
       this.floorConversion = await floorIdNameList;
+    },
+    removeFloorInGroup(floorId: string) {
+      // 移除對照表
+      const newFloorConversion = this.floorConversion.filter(
+        (item) => item.floorId !== floorId
+      );
+      this.floorConversion = newFloorConversion;
+      // 移除清單內包含的 node
+      const newArrayList = this.singleTopoListData.filter((item) => {
+        return item.floor !== floorId;
+      });
+      this.singleTopoListData = newArrayList;
     },
   },
   getters: {

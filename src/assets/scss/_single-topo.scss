@@ -1,41 +1,249 @@
-.topology-container {
-  position: relative;
-  .floor-container {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    z-index: 2;
-    top: 0;
-    left: 0;
-    .floor {
-      height: 180px;
-      border-bottom: 1px solid $gray-color;
-      .floor-title {
-        width: 10%;
-        font-weight: 700;
+#app {
+  // 拓樸圖
+  .topology-container {
+    position: relative;
+    // width: calc(100% - 400px);
+    .floor-container {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      z-index: 2;
+      top: 0;
+      left: 0;
+      .floor {
+        height: 180px;
+        border-bottom: 1px solid $gray-color;
+        .floor-title {
+          width: 10%;
+          font-weight: 700;
+        }
+        .floor-content {
+          width: 90%;
+          .server-item-bg {
+            @extend %darkBg;
+            border-radius: 50%;
+            height: 90px;
+            width: 90px;
+            line-height: 90px;
+            .server-icon {
+              height: 55px;
+              path {
+                fill: $white-color;
+              }
+            }
+          }
+        }
       }
-      .floor-content {
-        width: 90%;
-        .server-item-bg {
-          @extend %darkBg;
-          border-radius: 50%;
-          height: 90px;
-          width: 90px;
-          line-height: 90px;
-          .server-icon {
-            height: 55px;
-            path {
-              fill: $white-color;
+    }
+    #svgboard {
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  // 編輯控制台
+  .topo-edit-dashboard {
+    width: 400px;
+    position: fixed;
+    right: 0.5rem;
+    bottom: 0;
+    z-index: 2;
+    .topo-edit-dashboard-title {
+      @extend %subBg;
+      @extend %whiteColor;
+      @extend %h7;
+      @extend %fontFamEn;
+      cursor: pointer;
+      width: 100%;
+      padding: 1rem;
+      span {
+        margin-left: 1rem;
+      }
+      svg {
+        height: 17px;
+        transform: unset;
+        &.dashboard-hide {
+          transform: rotate(180deg);
+        }
+      }
+    }
+    .add-topo-floor.btn {
+      @extend %darkBg;
+      @extend %whiteColor;
+      @extend %h9;
+      width: 60px;
+      height: 60px;
+      display: block;
+      position: fixed;
+      z-index: 4;
+      border-radius: 50%;
+      bottom: 1rem;
+      right: 1.5rem;
+      display: block;
+      &:hover {
+        @extend %spBg;
+        @extend %darkColor;
+      }
+      &.dashboard-hide {
+        display: none;
+      }
+    }
+    .topo-floor-list {
+      border-radius: 0;
+      .topo-floor-item {
+        border-radius: 0;
+        padding: 1rem;
+        .topo-floor-header {
+          .topo-floor-title {
+            width: 100%;
+          }
+        }
+        .topo-node-list {
+          list-style: none;
+          padding: 0;
+          .topo-node-item {
+            margin-bottom: 0.1rem;
+            padding: 0.4rem 0.8rem 0.4rem 0;
+            // border: 1px solid $gray-color;
+            border-radius: 0.3rem;
+            .topo-node-header {
+              // height: 2rem;
+              .topo-node-title {
+                width: calc(100% - 10px);
+                font-weight: 500;
+                .accordion-button {
+                  @extend %darkColor;
+                  padding: 0;
+                  box-shadow: none;
+                  border: none;
+                  background: none;
+                  &::after {
+                    -webkit-filter: sepia(80%); /* Safari */
+                    filter: sepia(80%);
+                  }
+                }
+              }
+              .del-node-btn-outer {
+                @extend %mainBg;
+                height: 24px;
+                width: 24px;
+                border-radius: 50%;
+                margin-right: 5px;
+                .btn-close {
+                  @extend %darkColor;
+                  height: 4px;
+                  width: 4px;
+                  padding: 0.2em 0.2em;
+                }
+              }
+            }
+
+            .topo-node-link-container {
+              margin-top: 0.3rem;
+              // border-top: 1px solid $gray-color;
+              .topo-node-link-list {
+                list-style: none;
+                padding: 0;
+                .topo-node-link-item {
+                  .dropdown {
+                    .dropdown-toggle {
+                      width: calc(100% - 35px);
+                      text-align: left;
+                      border: 1px solid $gray-color;
+                      margin-bottom: 0.2rem;
+                      position: relative;
+                      font-weight: 300;
+                      &:after {
+                        position: absolute;
+                        right: 0.75rem;
+                        top: 0.85rem;
+                      }
+                    }
+                    .delete-link-trash {
+                      text-align: right;
+                      width: 35px;
+                      padding: 0;
+                    }
+                    .dropdown-menu {
+                      width: calc(100% - 35px);
+                      .dropdown-item {
+                        font-weight: 300;
+                      }
+                    }
+                  }
+                  .svg-icon-outer {
+                    cursor: pointer;
+                    height: 1.2rem;
+                    margin-bottom: 0.4rem;
+                    .svg-icon {
+                      fill: $dark-color;
+                    }
+                    &:hover {
+                      .svg-icon {
+                        fill: $sp-color;
+                      }
+                    }
+                  }
+                }
+              }
+              .add-node-link-item {
+                @extend %subBg;
+                @extend %whiteColor;
+                font-weight: 300;
+                &:hover {
+                  @extend %darkBg;
+                }
+              }
+            }
+          }
+        }
+        .topo-floor-footer {
+          .add-topo-node-del-btn {
+            @extend %whiteColor;
+            @extend %darkBg;
+            text-align: center;
+            width: 50%;
+            &:hover {
+              @extend %spBg;
+              @extend %darkColor;
+            }
+          }
+          .add-topo-node {
+            @extend %mainBg;
+            text-align: center;
+            width: 50%;
+            &:hover {
+              @extend %subBg;
+              @extend %whiteColor;
             }
           }
         }
       }
     }
   }
-  #svgboard {
-    position: absolute;
-    z-index: 1;
-    top: 0;
-    left: 0;
+
+  // 燈箱
+  #add-link-modal {
+    .btn.dropdown-toggle {
+      border: 1px solid $gray-color;
+      width: 100%;
+      text-align: left;
+      &:after {
+        position: absolute;
+        right: 0.75rem;
+        top: 0.85rem;
+      }
+    }
+    .dropdown-menu {
+      width: 100%;
+    }
+  }
+  .modal-header {
+    border: none;
+  }
+  .modal-footer {
+    border: none;
   }
 }
