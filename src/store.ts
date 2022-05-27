@@ -255,6 +255,36 @@ export const useStore = defineStore("main", {
       await allNodeList.push(newTopoItem);
       this.singleTopoListData = await allNodeList;
     },
+    async removeItemInGroup(nodeId: string) {
+      // const allNodeList: listDataType = JSON.parse(
+      //   JSON.stringify(this.singleTopoListData)
+      // );
+      // allNodeList.forEach((item, order) => {
+      //   if (item.id === nodeId) {
+      //     // const order = oriLinkList.indexOf(PreviousLink);
+      //     oriLinkList.splice(order, 1);
+      //   }
+      // });
+      let ownFloorId = "";
+      const newArrayList = this.singleTopoListData.filter((item) => {
+        // 移除節點內的 nodeId
+        const linkList = item.link;
+        const order = linkList.indexOf(nodeId);
+        if (order > -1) {
+          linkList.splice(order, 1);
+        }
+        // 還要移除對照表
+        if (linkList.length === 1) {
+          ownFloorId = item.floor;
+        }
+        return item.id !== nodeId;
+      });
+      const newFloorConversion = this.floorConversion.filter(
+        (item) => item.floorId !== ownFloorId
+      );
+      this.floorConversion = newFloorConversion;
+      this.singleTopoListData = newArrayList;
+    },
     editLinkInNode(nodeId: string, link: string, PreviousLink: string) {
       const allNodeList: listDataType = JSON.parse(
         JSON.stringify(this.singleTopoListData)
@@ -288,7 +318,28 @@ export const useStore = defineStore("main", {
       });
       this.singleTopoListData = allNodeList;
     },
-    async addFloorInGroup(groupId: string, floorName: string) {
+    deleteLinkInNode(nodeId: string, PreviousLink: string) {
+      const allNodeList: listDataType = JSON.parse(
+        JSON.stringify(this.singleTopoListData)
+      );
+      allNodeList.forEach((item) => {
+        if (item.id === nodeId) {
+          const oriLinkList = item.link;
+
+          const order = oriLinkList.indexOf(PreviousLink);
+          if (order > -1) {
+            oriLinkList.splice(order, 1);
+            item.link = oriLinkList;
+          }
+        }
+      });
+      this.singleTopoListData = allNodeList;
+    },
+    async addFloorInGroup(
+      groupId: string,
+      floorName: string,
+      nodeName: string
+    ) {
       const allNodeList: listDataType = await JSON.parse(
         JSON.stringify(this.singleTopoListData)
       );
@@ -296,7 +347,7 @@ export const useStore = defineStore("main", {
       const floorId = await this.genNonDuplicateID(5);
       const newTopoItem = await {
         id: "n" + itemId,
-        title: "服務器",
+        title: nodeName,
         floor: floorId,
         time: new Date().getTime(),
         groupId: groupId,

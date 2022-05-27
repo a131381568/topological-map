@@ -68,22 +68,16 @@ const topoBoardInit = () => {
   // 取得座標函式
   const getPosition = (className: string) => {
     let element: HTMLElement | null = document.querySelector(className);
-    let rect = {
-      x: 0,
-      y: 0,
-      width: 0,
-      height: 0,
-      top: 0,
-      right: 0,
-      bottom: 0,
-      left: 0,
-    };
     let x = 0;
     let y = 0;
     if (element !== null) {
-      rect = element.getBoundingClientRect();
-      x = rect.x;
-      y = rect.y;
+      while (element) {
+        x += element.offsetLeft - element.scrollLeft + element.clientLeft;
+        y += element.offsetTop - element.scrollLeft + element.clientTop;
+        // 當父元素被下了 position 屬性之後就會變成 offsetParent，所以這邊用迴圈不斷往上累加
+        const el: Element | null = element.offsetParent;
+        element = el as HTMLElement;
+      }
     }
     return { x: x, y: y };
   };
@@ -168,19 +162,13 @@ const topoBoardInit = () => {
   let boardDomRect = {
     x: 0,
     y: 0,
-    width: 0,
-    height: 0,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
   };
   if (topoDom !== null) {
     boardWidth = topoDom.offsetWidth;
-    boardDomRect = topoDom.getBoundingClientRect();
+    boardDomRect = getPosition(".topology-container");
   }
-  const boardDomRectTop = boardDomRect.top;
-  const boardDomRectLeft = boardDomRect.left;
+  const boardDomRectTop = boardDomRect.y;
+  const boardDomRectLeft = boardDomRect.x;
   const svgboard = d3
     .select(".topology-container")
     .append("svg")

@@ -1,7 +1,13 @@
 <template>
   <main class="d-flex justify-content-between container-fluid">
     <TopoBoard class="w-75"></TopoBoard>
-    <div class="w-25 topo-edit-dashboard">
+    <div
+      class="w-25 topo-edit-dashboard"
+      :style="[
+        { height: groupByCategoryLength * 180 + 'px' },
+        { 'overflow-y': 'scroll' },
+      ]"
+    >
       <div class="topo-floor-container">
         <button
           class="add-topo-floor h8"
@@ -39,7 +45,13 @@
                   :key="nodeKey"
                   class="topo-node-item"
                 >
-                  <span class="topo-node-title h7">{{ nodeItem.title }}</span>
+                  <span class="topo-node-title h7">{{ nodeItem.title }}</span
+                  ><button
+                    class="h8"
+                    @click.prevent="removeItemInGroupBtn(nodeItem.id)"
+                  >
+                    x
+                  </button>
                   <div class="topo-node-link-container">
                     <div
                       class="topo-node-header d-flex justify-content-between"
@@ -75,6 +87,13 @@
                             aria-expanded="false"
                           >
                             {{ store.changeNodeName(linkItem) }}
+                          </button>
+                          <button
+                            @click.prevent="
+                              deleteLinkItemBtn(nodeItem.id, linkItem)
+                            "
+                          >
+                            X
                           </button>
                           <ul
                             class="dropdown-menu"
@@ -214,6 +233,20 @@
                 aria-describedby="inputGroup-sizing-floor-name"
               />
             </div>
+            <div class="input-group mb-3">
+              <span
+                id="inputGroup-sizing-floor-node-name"
+                class="input-group-text"
+                >節點名稱</span
+              >
+              <input
+                v-model="actionAddFloorAfterNodeNameVal"
+                type="text"
+                class="form-control"
+                aria-label="sizing-input-floor-node-name"
+                aria-describedby="inputGroup-sizing-floor-node-name"
+              />
+            </div>
           </div>
           <div class="modal-footer">
             <button
@@ -292,23 +325,13 @@
 import { Modal } from "bootstrap";
 const route = useRoute();
 const store = useStore();
+
+// 將列表資料依據階層分群
 const groupByCategory = computed(() => store.get_groupByCategory);
 const groupByCategoryLength = computed(() => {
   console.log(Object.keys(store.get_groupByCategory));
   return Object.keys(store.get_groupByCategory).length;
 });
-
-// 新增服務器
-const addServerAct = (
-  nodeTitle: string,
-  floorId: string,
-  link: string[],
-  itemLength: number
-) => {
-  if (route.params.tid && itemLength < 8) {
-    store.addItemInGroup(String(route.params.tid), nodeTitle, floorId, link);
-  }
-};
 
 // 切換連線
 const editLinkItem = (
@@ -322,6 +345,18 @@ const editLinkItem = (
   }
 };
 
+// 刪除連線
+const deleteLinkItemBtn = (nodeId: string, oriLink: string) => {
+  // 應該要跳一個確定刪除?
+  store.deleteLinkInNode(nodeId, oriLink);
+};
+
+// 刪除節點
+const removeItemInGroupBtn = (nodeId: string) => {
+  // 應該要跳一個確定刪除?
+  store.removeItemInGroup(nodeId);
+};
+
 // ====================== 新增節點連線相關 ======================
 const allCanLinktMenu = computed(() => {
   const strMenu = <string[]>[];
@@ -330,7 +365,6 @@ const allCanLinktMenu = computed(() => {
   });
   return strMenu;
 });
-
 const canLinkMenu = (ownNodeId: string, ownlink: string[]) => {
   const allList = JSON.parse(JSON.stringify(allCanLinktMenu.value));
   const excludeList = ownlink.concat([ownNodeId]);
@@ -344,20 +378,16 @@ const canLinkMenu = (ownNodeId: string, ownlink: string[]) => {
   }
   return allList;
 };
-
 const addLinkItem = (nodeId: string, nowLinkLength: number, link: string[]) => {
   if (store.get_singleTopoListLength - 1 > nowLinkLength) {
     handelOpenAddLinkModal(nodeId, link);
   }
 };
-
 const addLinkModalRef = ref<HTMLElement | null>(null);
 const addLinkGroupModal = ref<Modal | null>(null);
 const actionNodeId = ref<string>("");
 const actionSelectedId = ref<string[]>([]);
 const selectLinkNodeId = ref<string>("");
-
-// 開啟燈箱
 const handelOpenAddLinkModal = (nodeId: string, linkList: string[]) => {
   if (addLinkGroupModal.value !== null) {
     actionNodeId.value = nodeId;
@@ -365,8 +395,6 @@ const handelOpenAddLinkModal = (nodeId: string, linkList: string[]) => {
     addLinkGroupModal.value.show();
   }
 };
-
-// 關閉燈箱
 const handelCloseAddLinkModal = () => {
   if (addLinkGroupModal.value !== null) {
     addLinkGroupModal.value.hide();
@@ -375,13 +403,10 @@ const handelCloseAddLinkModal = () => {
     selectLinkNodeId.value = "";
   }
 };
-
 // 燈箱狀態，選擇下拉選單中的項目
 const useModalLinkId = (nodeId: string) => {
   selectLinkNodeId.value = nodeId;
 };
-
-// 按下確定
 const addLinkItemAct = () => {
   const linkValCheck =
     selectLinkNodeId.value.replace(/(^s*)|(s*$)/g, "").length === 0;
@@ -395,6 +420,7 @@ const addLinkItemAct = () => {
 const addFloorModalRef = ref<HTMLElement | null>(null);
 const addFloorModal = ref<Modal | null>(null);
 const actionAddFloorNameVal = ref<string>("");
+const actionAddFloorAfterNodeNameVal = ref<string>("");
 const handelOpenAddFloorModal = () => {
   if (
     addFloorModal.value !== null &&
@@ -408,15 +434,20 @@ const handelCloseAddFloorModal = () => {
   if (addFloorModal.value !== null) {
     addFloorModal.value.hide();
     actionAddFloorNameVal.value = "";
+    actionAddFloorAfterNodeNameVal.value = "";
   }
 };
 const addFloorItemAct = () => {
   const floorNameValCheck =
     actionAddFloorNameVal.value.replace(/(^s*)|(s*$)/g, "").length === 0;
-  if (!floorNameValCheck) {
+  const nodeNameValCheck =
+    actionAddFloorAfterNodeNameVal.value.replace(/(^s*)|(s*$)/g, "").length ===
+    0;
+  if (!floorNameValCheck && !nodeNameValCheck) {
     store.addFloorInGroup(
       String(route.params.tid),
-      actionAddFloorNameVal.value
+      actionAddFloorNameVal.value,
+      actionAddFloorAfterNodeNameVal.value
     );
     handelCloseAddFloorModal();
   }
