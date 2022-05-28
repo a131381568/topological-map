@@ -31,7 +31,7 @@ export const useStore = defineStore("main", {
         groupName: "家用測試",
       },
     ],
-    singleTopoListData: <listDataType>[
+    totalTopoListData: <listDataType>[
       {
         id: "ap1126",
         title: "教學樓",
@@ -120,7 +120,24 @@ export const useStore = defineStore("main", {
         groupId: "city-university",
         link: [],
       },
+      {
+        id: "ap1137",
+        title: "第一網路---1",
+        floor: "rewgewgrwgwegg",
+        time: 1653345220000,
+        groupId: "first-net",
+        link: [],
+      },
+      {
+        id: "ap1138",
+        title: "家用測試---1",
+        floor: "eqfqewfqwdwdd",
+        time: 1653345320000,
+        groupId: "home-test",
+        link: [],
+      },
     ],
+    singleTopoListData: <listDataType>[],
     floorConversion: <floorConversionType>[
       {
         floorId: "cat001",
@@ -220,10 +237,16 @@ export const useStore = defineStore("main", {
       this.groupConversion.push(groupInfo);
     },
     delGroupToList(groupId: string) {
+      // 刪除群組對照表
       const remainder = this.groupConversion.filter(
         (item) => item.groupId !== groupId
       );
       this.groupConversion = remainder;
+      // 刪除關聯 node
+      const newTotalTopoListData = this.totalTopoListData.filter(
+        (item) => item.groupId !== groupId
+      );
+      this.totalTopoListData = newTotalTopoListData;
     },
     editGroupToList(groupId: string, groupName: string) {
       this.groupConversion.forEach((item) => {
@@ -316,7 +339,6 @@ export const useStore = defineStore("main", {
       allNodeList.forEach((item) => {
         if (item.id === nodeId) {
           const oriLinkList = item.link;
-
           const order = oriLinkList.indexOf(PreviousLink);
           if (order > -1) {
             oriLinkList.splice(order, 1);
@@ -362,11 +384,43 @@ export const useStore = defineStore("main", {
         (item) => item.floorId !== floorId
       );
       this.floorConversion = newFloorConversion;
-      // 移除清單內包含的 node
+      // 移除清單內，隸屬此 floor 的 node
+      const excludedNodeIdSet: string[] = [];
       const newArrayList = this.singleTopoListData.filter((item) => {
+        if (item.floor === floorId) {
+          excludedNodeIdSet.push(item.id);
+        }
         return item.floor !== floorId;
       });
       this.singleTopoListData = newArrayList;
+      // 遍歷所有 link 欄位，有包含的都刪除
+      const allNodeList: listDataType = JSON.parse(
+        JSON.stringify(this.singleTopoListData)
+      );
+      allNodeList.forEach((outer_item) => {
+        const oriLinkList = outer_item.link;
+        const noRepeatLink = oriLinkList.filter((item) => {
+          const check = excludedNodeIdSet.indexOf(item);
+          if (check === -1) {
+            return item;
+          }
+        });
+        outer_item.link = noRepeatLink;
+      });
+      this.singleTopoListData = allNodeList;
+    },
+    removeNodeByNodeId(nodeId: string) {
+      const allNodeList: listDataType = JSON.parse(
+        JSON.stringify(this.totalTopoListData)
+      );
+      const remainder = allNodeList.filter((item) => item.id !== nodeId);
+      this.totalTopoListData = remainder;
+    },
+    getNodeListDataInGroup(groupId: string) {
+      const remainder = this.totalTopoListData.filter(
+        (item) => item.groupId === groupId
+      );
+      this.singleTopoListData = remainder;
     },
   },
   getters: {

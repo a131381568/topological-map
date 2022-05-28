@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <main class="container">
     <div class="d-flex justify-content-end mb-3">
       <button
         type="button"

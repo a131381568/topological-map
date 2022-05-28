@@ -45,6 +45,7 @@
 
   // 編輯控制台
   .topo-edit-dashboard {
+    @extend %whiteBg;
     width: 400px;
     position: fixed;
     right: 0.5rem;

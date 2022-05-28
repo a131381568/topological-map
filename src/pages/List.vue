@@ -1,8 +1,5 @@
 <template>
   <main class="container">
-    <div class="d-flex justify-content-end mb-3">
-      <button type="button" class="btn add-btn">+</button>
-    </div>
     <table class="table ap-list-table">
       <thead>
         <tr>
@@ -21,7 +18,7 @@
           <td>{{ store.changeGroupName(value.groupId) }}</td>
           <td>{{ store.changeDate(value.time) }}</td>
           <td>
-            <router-link :to="'/topo-edit/' + value.id">
+            <router-link :to="'/topo-edit/' + value.groupId">
               <svg
                 class="svg-icon-outer"
                 xmlns="http://www.w3.org/2000/svg"
@@ -41,6 +38,7 @@
               class="svg-icon-outer"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 25 25"
+              @click.prevent="store.removeNodeByNodeId(value.id)"
             >
               <g id="trash">
                 <path
@@ -60,7 +58,7 @@
 </template>
 <script setup lang="ts">
 import { listDataType } from "@/type/types";
-import { topoList } from "@/api/user";
+// import { topoList } from "@/api/user";
 // const route = useRoute();
 const store = useStore();
 
@@ -68,15 +66,10 @@ onMounted(() => {
   //
 });
 const listData = ref<listDataType>([]);
-const getApList = async () => {
-  let res = await topoList();
-  // console.log(res);
-  listData.value = res.data.data;
-};
-getApList();
+// const getApList = async () => {
+//   let res = await topoList();
+//   listData.value = res.data.data;
+// };
+// getApList();
+listData.value = store.totalTopoListData;
 </script>
-<style scoped lang="scss">
-// .ap-list {
-//   @extend %subBg;
-// }
-</style>

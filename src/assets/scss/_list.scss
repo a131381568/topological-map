@@ -16,6 +16,7 @@
     tr {
       td {
         @extend %h7;
+        vertical-align: middle;
         height: 1.5rem;
         border-color: $gray-color;
         .svg-icon-outer {
@@ -29,6 +30,9 @@
               fill: $sp-color;
             }
           }
+        }
+        .del-group-btn {
+          padding: 0;
         }
       }
     }

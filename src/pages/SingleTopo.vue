@@ -1,6 +1,5 @@
 <template>
   <main class="container">
-    <!-- class="d-flex justify-content-between container-fluid" -->
     <TopoBoard></TopoBoard>
     <div class="topo-edit-dashboard">
       <div class="topo-floor-container">
@@ -26,10 +25,7 @@
         </div>
         <!-- 階層區塊 -->
         <perfect-scrollbar :style="toggleDashboardState">
-          <ul
-            class="topo-floor-list list-group"
-            :style="[{ height: groupByCategoryLength * 180 - 35 + 'px' }]"
-          >
+          <ul class="topo-floor-list list-group" :style="{ height: '80vh' }">
             <button
               :class="[
                 'add-topo-floor',
@@ -416,10 +412,12 @@ const toggleDashboardAction = () => {
   }
 };
 
+// 按 groupId 取得初始化資料
+store.getNodeListDataInGroup(String(route.params.tid));
+
 // 將列表資料依據階層分群
 const groupByCategory = computed(() => store.get_groupByCategory);
 const groupByCategoryLength = computed(() => {
-  console.log(Object.keys(store.get_groupByCategory));
   return Object.keys(store.get_groupByCategory).length;
 });
 
