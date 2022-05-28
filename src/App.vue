@@ -3,6 +3,7 @@
     <TopHeader></TopHeader>
     <router-view class="my-0 mx-auto"></router-view>
     <BottomFooter></BottomFooter>
+    <LoadingSpinners></LoadingSpinners>
   </div>
 </template>
 <script setup lang="ts">

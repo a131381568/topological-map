@@ -141,5 +141,18 @@ html {
         min-height: calc(100vh - 151px - 53px);
       }
     }
+    // vue fade
+    .fade-enter-active {
+      transition: opacity 0.5s;
+    }
+    .fade-leave-active {
+      @extend .fade-enter-active;
+    }
+    .fade-enter {
+      opacity: 0;
+    }
+    .fade-leave-to {
+      @extend .fade-enter;
+    }
   }
 }

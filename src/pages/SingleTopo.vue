@@ -1,7 +1,7 @@
 <template>
   <main class="container">
     <TopoBoard></TopoBoard>
-    <div class="topo-edit-dashboard">
+    <div class="topo-edit-dashboard shadow">
       <div class="topo-floor-container">
         <div class="topo-edit-dashboard-title h8">
           <svg
@@ -19,7 +19,9 @@
               d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
             />
           </svg>
-          <span>Topology map editer</span>
+          <span @click.prevent="toggleDashboardAction"
+            >Topology map editer</span
+          >
           <button
             class="btn save-btn"
             @click.prevent="
@@ -442,13 +444,11 @@ const editLinkItem = (
 
 // 刪除連線
 const deleteLinkItemBtn = (nodeId: string, oriLink: string) => {
-  // 應該要跳一個確定刪除?
   store.deleteLinkInNode(nodeId, oriLink);
 };
 
 // 刪除節點
 const removeItemInGroupBtn = (nodeId: string) => {
-  // 應該要跳一個確定刪除?
   store.removeItemInGroup(nodeId);
 };
 

@@ -211,6 +211,7 @@ export const useStore = defineStore("main", {
       },
     ],
     floorConversion: <floorConversionType>[],
+    loadingModal: false,
   }),
   actions: {
     initApp() {
@@ -291,18 +292,6 @@ export const useStore = defineStore("main", {
       };
       this.groupConversion.push(groupInfo);
     },
-    delGroupToList(groupId: string) {
-      // 刪除群組對照表
-      const remainder = this.groupConversion.filter(
-        (item) => item.groupId !== groupId
-      );
-      this.groupConversion = remainder;
-      // 刪除關聯 node
-      const newTotalTopoListData = this.totalTopoListData.filter(
-        (item) => item.groupId !== groupId
-      );
-      this.totalTopoListData = newTotalTopoListData;
-    },
     editGroupToList(groupId: string, groupName: string) {
       this.groupConversion.forEach((item) => {
         if (item.groupId === groupId) {
@@ -333,8 +322,22 @@ export const useStore = defineStore("main", {
       await allNodeList.push(newTopoItem);
       this.singleTopoListData = await allNodeList;
     },
-    async removeItemInGroup(nodeId: string) {
-      const devAllNodeList: listDataType = await JSON.parse(
+    delGroupToList(groupId: string) {
+      // 刪除群組對照表
+      const remainder = this.groupConversion.filter(
+        (item) => item.groupId !== groupId
+      );
+      this.groupConversion = remainder;
+      // 刪除關聯 node
+      const newTotalTopoListData = this.totalTopoListData.filter(
+        (item) => item.groupId !== groupId
+      );
+      this.totalTopoListData = newTotalTopoListData;
+      // 開啟 loading 燈箱
+      this.toggleLoadingModal();
+    },
+    removeItemInGroup(nodeId: string) {
+      const devAllNodeList: listDataType = JSON.parse(
         JSON.stringify(this.singleTopoListData)
       );
       let ownFloorId = "";
@@ -497,6 +500,41 @@ export const useStore = defineStore("main", {
       // 更新修改後的 floor 資料
       const newTotalFlorData = remainderFloor.concat(this.floorConversion);
       this.totalfloorConversion = newTotalFlorData;
+      // 開啟 loading 燈箱
+      this.toggleLoadingModal();
+    },
+    delItemToTotalList(nodeId: string) {
+      const devAllNodeList: listDataType = JSON.parse(
+        JSON.stringify(this.totalTopoListData)
+      );
+      let ownFloorId = "";
+      const newArrayList = devAllNodeList.filter((item) => {
+        // 移除節點內的 nodeId
+        const linkList = item.link;
+        const order = linkList.indexOf(nodeId);
+        if (order > -1) {
+          linkList.splice(order, 1);
+        }
+        // 還要移除階層對照表
+        if (linkList.length === 1) {
+          ownFloorId = item.floor;
+        }
+        return item.id !== nodeId;
+      });
+      const newFloorConversion = this.totalfloorConversion.filter(
+        (item) => item.floorId !== ownFloorId
+      );
+      this.totalfloorConversion = newFloorConversion;
+      this.totalTopoListData = newArrayList;
+      // 開啟 loading 燈箱
+      this.toggleLoadingModal();
+    },
+    toggleLoadingModal() {
+      const vm = this;
+      vm.loadingModal = true;
+      setTimeout(() => {
+        vm.loadingModal = false;
+      }, 1000);
     },
   },
   getters: {
@@ -528,6 +566,9 @@ export const useStore = defineStore("main", {
         {}
       );
       return catResult;
+    },
+    get_loadingModal: (state) => {
+      return state.loadingModal;
     },
   },
 });

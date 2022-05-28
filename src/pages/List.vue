@@ -38,6 +38,7 @@
               class="svg-icon-outer"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 25 25"
+              @click.prevent="handelOpenDelModal(value.id)"
             >
               <g id="trash">
                 <path
@@ -53,22 +54,82 @@
     <!-- <div class="d-flex justify-content-center load-more-outer">
       <button type="button" class="btn load-more-btn">載入更多</button>
     </div> -->
+    <!-- Delete Node Modal -->
+    <div
+      id="del-node-modal"
+      ref="delNodeModalRef"
+      class="modal fade"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="del-node-modal-label" class="modal-title">刪除節點</h5>
+            <button
+              type="button"
+              class="btn-close"
+              @click.prevent="handelCloseDelNodeModal"
+            ></button>
+          </div>
+          <div class="modal-body">確定刪除節點?</div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              @click.prevent="handelCloseDelNodeModal"
+            >
+              取消
+            </button>
+            <button
+              type="button"
+              class="btn sub-bg text-white"
+              @click.prevent="delNodeAct"
+            >
+              確定
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 <script setup lang="ts">
 import { listDataType } from "@/type/types";
+import { Modal } from "bootstrap";
 // import { topoList } from "@/api/user";
 // const route = useRoute();
 const store = useStore();
+const listData = computed<listDataType>(() => store.totalTopoListData);
+// 刪除群組燈箱設定
+const delNodeModalRef = ref<HTMLElement | null>(null);
+let delNodeModal = ref<Modal | null>(null);
+const actionDelNodeId = ref<string>("");
+const delNodeAct = () => {
+  store.delItemToTotalList(actionDelNodeId.value);
+  handelCloseDelNodeModal();
+};
+const handelOpenDelModal = (nodeId: string) => {
+  if (delNodeModal.value !== null) {
+    actionDelNodeId.value = nodeId;
+    delNodeModal.value.show();
+  }
+};
+const handelCloseDelNodeModal = () => {
+  if (delNodeModal.value !== null) {
+    delNodeModal.value.hide();
+    actionDelNodeId.value = "";
+  }
+};
 
 onMounted(() => {
-  //
+  if (delNodeModalRef.value !== null) {
+    delNodeModal.value = new Modal(delNodeModalRef.value);
+  }
 });
-const listData = ref<listDataType>([]);
 // const getApList = async () => {
 //   let res = await topoList();
 //   listData.value = res.data.data;
 // };
-// getApList();
-listData.value = store.totalTopoListData;
 </script>
