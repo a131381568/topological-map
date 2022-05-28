@@ -38,7 +38,6 @@
               class="svg-icon-outer"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 25 25"
-              @click.prevent="store.removeNodeByNodeId(value.id)"
             >
               <g id="trash">
                 <path

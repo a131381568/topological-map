@@ -19,4 +19,5 @@ export type groupConversionType = {
 export type floorConversionType = {
   floorId: string;
   floorName: string;
+  groupId: string;
 }[];

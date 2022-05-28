@@ -3,10 +3,7 @@
     <TopoBoard></TopoBoard>
     <div class="topo-edit-dashboard">
       <div class="topo-floor-container">
-        <div
-          class="topo-edit-dashboard-title h8"
-          @click.prevent="toggleDashboardAction"
-        >
+        <div class="topo-edit-dashboard-title h8">
           <svg
             :class="[
               { 'dashboard-show': toggleDashboardState.height === 'auto' },
@@ -15,6 +12,7 @@
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 16 16"
             fill="#fff"
+            @click.prevent="toggleDashboardAction"
           >
             <path
               fill-rule="evenodd"
@@ -22,6 +20,14 @@
             />
           </svg>
           <span>Topology map editer</span>
+          <button
+            class="btn save-btn"
+            @click.prevent="
+              store.saveSingleEditToTotalData(String(route.params.tid))
+            "
+          >
+            儲存修改
+          </button>
         </div>
         <!-- 階層區塊 -->
         <perfect-scrollbar :style="toggleDashboardState">
@@ -414,6 +420,7 @@ const toggleDashboardAction = () => {
 
 // 按 groupId 取得初始化資料
 store.getNodeListDataInGroup(String(route.params.tid));
+store.getFloorListDataInGroup(String(route.params.tid));
 
 // 將列表資料依據階層分群
 const groupByCategory = computed(() => store.get_groupByCategory);

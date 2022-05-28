@@ -56,17 +56,29 @@
       @extend %whiteColor;
       @extend %h7;
       @extend %fontFamEn;
-      cursor: pointer;
       width: 100%;
       padding: 1rem;
       span {
         margin-left: 1rem;
       }
       svg {
+        cursor: pointer;
         height: 17px;
         transform: unset;
         &.dashboard-hide {
           transform: rotate(180deg);
+        }
+      }
+      .save-btn {
+        @extend %h9;
+        @extend %darkColor;
+        @extend %whiteBg;
+        padding: 0 1rem;
+        position: absolute;
+        right: 1rem;
+        top: 1.1rem;
+        &:hover {
+          @extend %spBg;
         }
       }
     }
