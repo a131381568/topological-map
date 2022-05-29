@@ -120,7 +120,7 @@
 <script setup lang="ts">
 import { listDataType } from "@/type/types";
 import { Modal } from "bootstrap";
-// import { topoList } from "@/api/user";
+// import { topoList } from "@/api/topological";
 // const route = useRoute();
 const store = useStore();
 const listData = computed<listDataType>(() => store.totalTopoListData);
