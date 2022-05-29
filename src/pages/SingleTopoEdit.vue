@@ -23,12 +23,15 @@
             />
           </svg>
           <span @click.prevent="toggleDashboardAction"
-            >Topology map editer</span
+            >Topology Map Editer</span
           >
           <button
             class="btn save-btn"
             @click.prevent="
-              store.saveSingleEditToTotalData(String(route.params.tid))
+              store.saveSingleEditToTotalData(
+                String(route.params.tid),
+                groupNameRef
+              )
             "
           >
             儲存修改
@@ -36,6 +39,21 @@
         </div>
         <!-- 階層區塊 -->
         <perfect-scrollbar :style="toggleDashboardState">
+          <div class="input-group group-title-input">
+            <span
+              id="basic-group-edit-name"
+              class="input-group-text border-bottom-0"
+              >群組名稱</span
+            >
+            <input
+              v-model="groupNameRef"
+              type="text"
+              class="form-control border-bottom-0"
+              placeholder="Group Name"
+              aria-label="group-edit-name"
+              aria-describedby="basic-group-edit-name"
+            />
+          </div>
           <ul class="topo-floor-list list-group" :style="{ height: '80vh' }">
             <button
               :class="[
@@ -55,9 +73,30 @@
             >
               <div class="topo-floor-header d-flex justify-content-between">
                 <!-- 階層標題 -->
-                <h6 class="topo-floor-title">
-                  {{ store.changeFloorName(String(key)) }}
-                </h6>
+                <div
+                  class="topo-floor-title-outer"
+                  @click.prevent="
+                    handelOpenEditFloorModal(
+                      String(key),
+                      store.changeFloorName(String(key))
+                    )
+                  "
+                >
+                  <h6 class="topo-floor-title">
+                    {{ store.changeFloorName(String(key)) }}
+                  </h6>
+                  <div class="svg-icon-outer">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="18"
+                      height="4"
+                    >
+                      <circle cx="9" cy="2" r="2" />
+                      <circle cx="2" cy="2" r="2" />
+                      <circle cx="16" cy="2" r="2" />
+                    </svg>
+                  </div>
+                </div>
               </div>
               <div class="topo-node-container">
                 <!-- 節點列表 -->
@@ -403,12 +442,67 @@
         </div>
       </div>
     </div>
+    <!-- Edit Floor Name Modal -->
+    <div
+      id="edit-floor-modal"
+      ref="editFloorModalRef"
+      class="modal fade"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="edit-floor-modal-label" class="modal-title">
+              編輯階層名稱
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              @click.prevent="handelCloseEditFloorModal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <span id="inputGroup-sizing-floor-name" class="input-group-text"
+                >階層名稱</span
+              >
+              <input
+                v-model="actionEditFloorNameVal"
+                type="text"
+                class="form-control"
+                aria-label="sizing-input-floor-name"
+                aria-describedby="inputGroup-sizing-floor-name"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn"
+              @click.prevent="handelCloseEditFloorModal"
+            >
+              取消
+            </button>
+            <button
+              type="button"
+              class="btn sub-bg text-white"
+              @click.prevent="editFloorAct"
+            >
+              確定
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 <script setup lang="ts">
 import { Modal } from "bootstrap";
 const route = useRoute();
 const store = useStore();
+const groupNameRef = ref<string>("");
 type scrollbarHeight = {
   height: string | number;
 };
@@ -589,6 +683,41 @@ const addNodeItemAct = () => {
   }
 };
 
+// ====================== 編輯階層名稱相關 ======================
+const editFloorModalRef = ref<HTMLElement | null>(null);
+const editFloorModal = ref<Modal | null>(null);
+const actionEditFloorNameVal = ref<string>("");
+const actionEditFloorId = ref<string>("");
+const handelOpenEditFloorModal = (floorId: string, floorName: string) => {
+  if (editFloorModal.value !== null && route.params.tid) {
+    actionEditFloorId.value = floorId;
+    actionEditFloorNameVal.value = floorName;
+    editFloorModal.value.show();
+  }
+};
+const handelCloseEditFloorModal = () => {
+  if (editFloorModal.value !== null) {
+    editFloorModal.value.hide();
+    actionEditFloorNameVal.value = "";
+    actionEditFloorId.value = "";
+  }
+};
+const editFloorAct = () => {
+  const floorNameValCheck =
+    actionEditFloorNameVal.value.replace(/(^s*)|(s*$)/g, "").length === 0;
+  console.log(`
+      actionEditFloorId: ${actionEditFloorId.value}
+      actionEditFloorNameVal: ${actionEditFloorNameVal.value}
+    `);
+  if (!floorNameValCheck) {
+    store.updateFloorConversion(
+      actionEditFloorId.value,
+      actionEditFloorNameVal.value
+    );
+    handelCloseEditFloorModal();
+  }
+};
+
 onMounted(async () => {
   // 燈箱初始化
   if (addLinkModalRef.value !== null) {
@@ -599,6 +728,17 @@ onMounted(async () => {
   }
   if (addNodeModalRef.value !== null) {
     addNodeModal.value = await new Modal(addNodeModalRef.value);
+  }
+  if (editFloorModalRef.value !== null) {
+    editFloorModal.value = await new Modal(editFloorModalRef.value);
+  }
+  // 取得群組對照名稱
+  const groupConversion = await store.get_groupConversion;
+  const groupIdChangeName = groupConversion.filter(
+    (item) => item.groupId === String(route.params.tid)
+  );
+  if (groupIdChangeName.length > 0) {
+    groupNameRef.value = groupIdChangeName[0].groupName;
   }
 });
 </script>

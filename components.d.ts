@@ -2,17 +2,17 @@
 // We suggest you to commit this file into source control
 // Read more: https://github.com/vuejs/vue-next/pull/3399
 
-declare module "@vue/runtime-core" {
+declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    BottomFooter: typeof import("./src/components/BottomFooter.vue")["default"];
-    HelloWorld: typeof import("./src/components/HelloWorld.vue")["default"];
-    LoadingSpinners: typeof import("./src/components/LoadingSpinners.vue")["default"];
-    NothingBlock: typeof import("./src/components/NothingBlock.vue")["default"];
-    RouterLink: typeof import("vue-router")["RouterLink"];
-    RouterView: typeof import("vue-router")["RouterView"];
-    TopHeader: typeof import("./src/components/TopHeader.vue")["default"];
-    TopoBoard: typeof import("./src/components/TopoBoard.vue")["default"];
+    BottomFooter: typeof import('./src/components/BottomFooter.vue')['default']
+    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    LoadingSpinners: typeof import('./src/components/LoadingSpinners.vue')['default']
+    NothingBlock: typeof import('./src/components/NothingBlock.vue')['default']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
+    TopHeader: typeof import('./src/components/TopHeader.vue')['default']
+    TopoBoard: typeof import('./src/components/TopoBoard.vue')['default']
   }
 }
 
-export {};
+export { }

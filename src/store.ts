@@ -122,7 +122,7 @@ export const useStore = defineStore("main", {
       },
       {
         id: "ap1137",
-        title: "第一網路---1",
+        title: "總伺服器",
         floor: "rewgewgrwgwegg",
         time: 1653345220000,
         groupId: "first-net",
@@ -130,7 +130,7 @@ export const useStore = defineStore("main", {
       },
       {
         id: "ap1138",
-        title: "家用測試---1",
+        title: "委外網路管理",
         floor: "eqfqewfqwdwdd",
         time: 1653345320000,
         groupId: "home-test",
@@ -138,7 +138,7 @@ export const useStore = defineStore("main", {
       },
       {
         id: "n82hgomn5weo",
-        title: "bbbbbbb",
+        title: "管理室",
         floor: "3ydh6iwcpe",
         time: 1653740831315,
         groupId: "home-test",
@@ -146,7 +146,7 @@ export const useStore = defineStore("main", {
       },
       {
         id: "nhj2lf9btzgo",
-        title: "cccccccccc",
+        title: "管委會 A",
         floor: "968rtipgw9",
         time: 1653740836810,
         groupId: "home-test",
@@ -154,7 +154,7 @@ export const useStore = defineStore("main", {
       },
       {
         id: "n5vt8tauuuh4",
-        title: "c2",
+        title: "管委會 B",
         floor: "968rtipgw9",
         time: 1653740841930,
         groupId: "home-test",
@@ -162,7 +162,7 @@ export const useStore = defineStore("main", {
       },
       {
         id: "nnvpebzx7dsw",
-        title: "c3",
+        title: "管委會 C",
         floor: "968rtipgw9",
         time: 1653740846754,
         groupId: "home-test",
@@ -170,7 +170,7 @@ export const useStore = defineStore("main", {
       },
       {
         id: "nek1i2739dgo",
-        title: "電腦 A",
+        title: "管理員",
         floor: "8vly0dmn3e",
         time: 1653741415275,
         groupId: "first-net",
@@ -205,8 +205,23 @@ export const useStore = defineStore("main", {
         groupId: "first-net",
       },
       {
+        floorId: "8vly0dmn3e",
+        floorName: "網路系統 B",
+        groupId: "first-net",
+      },
+      {
         floorId: "eqfqewfqwdwdd",
         floorName: "社區 A",
+        groupId: "home-test",
+      },
+      {
+        floorId: "3ydh6iwcpe",
+        floorName: "社區 B",
+        groupId: "home-test",
+      },
+      {
+        floorId: "968rtipgw9",
+        floorName: "社區 C",
         groupId: "home-test",
       },
     ],
@@ -485,7 +500,7 @@ export const useStore = defineStore("main", {
       );
       this.floorConversion = remainder;
     },
-    saveSingleEditToTotalData(groupId: string) {
+    saveSingleEditToTotalData(groupId: string, newGroupName: string) {
       // 先將總表的舊 node 資料刪除
       const remainderNode = this.totalTopoListData.filter(
         (item) => item.groupId !== groupId
@@ -500,6 +515,16 @@ export const useStore = defineStore("main", {
       // 更新修改後的 floor 資料
       const newTotalFlorData = remainderFloor.concat(this.floorConversion);
       this.totalfloorConversion = newTotalFlorData;
+      // 更新群組名稱
+      const allGroupList: groupConversionType = JSON.parse(
+        JSON.stringify(this.groupConversion)
+      );
+      allGroupList.forEach((item) => {
+        if (item.groupId === groupId) {
+          item.groupName = newGroupName;
+        }
+      });
+      this.groupConversion = allGroupList;
       // 開啟 loading 燈箱
       this.toggleLoadingModal();
     },
@@ -535,6 +560,17 @@ export const useStore = defineStore("main", {
       setTimeout(() => {
         vm.loadingModal = false;
       }, 1000);
+    },
+    updateFloorConversion(floorId: string, newFloorName: string) {
+      const allFloorList: floorConversionType = JSON.parse(
+        JSON.stringify(this.floorConversion)
+      );
+      allFloorList.forEach((item) => {
+        if (item.floorId === floorId) {
+          item.floorName = newFloorName;
+        }
+      });
+      this.floorConversion = allFloorList;
     },
   },
   getters: {

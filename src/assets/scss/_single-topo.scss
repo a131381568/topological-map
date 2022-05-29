@@ -84,6 +84,11 @@
         }
       }
     }
+    // 編輯群組名稱
+    .group-title-input {
+      z-index: 0;
+    }
+    // 新增階層按鈕
     .add-topo-floor.btn {
       @extend %darkBg;
       @extend %whiteColor;
@@ -111,8 +116,22 @@
         border-radius: 0;
         padding: 1rem;
         .topo-floor-header {
-          .topo-floor-title {
-            width: 100%;
+          .topo-floor-title-outer {
+            cursor: pointer;
+            display: flex;
+            justify-content: flex-start;
+            .svg-icon-outer {
+              width: 26px;
+              fill: $dark-color;
+              margin-left: 6px;
+              margin-top: -1px;
+            }
+            &:hover {
+              @extend %subColor;
+              .svg-icon-outer {
+                fill: $sub-color;
+              }
+            }
           }
         }
         .topo-node-list {
