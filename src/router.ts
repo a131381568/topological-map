@@ -4,6 +4,7 @@ import List from "@/pages/List.vue";
 import SingleTopoEdit from "@/pages/SingleTopoEdit.vue";
 import SingleTopoView from "@/pages/SingleTopoView.vue";
 import Group from "@/pages/Group.vue";
+import About from "@/pages/About.vue";
 
 const routes = [
   {
@@ -44,6 +45,14 @@ const routes = [
     component: Group,
     meta: {
       title: "Group",
+    },
+  },
+  {
+    path: "/about",
+    name: "About",
+    component: About,
+    meta: {
+      title: "About",
     },
   },
 ];

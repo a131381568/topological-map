@@ -1,20 +1,33 @@
 #app {
   .home-layout {
+    position: relative;
+    background-image: url("../img/topo_bg_green.jpg");
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    main {
+      padding-bottom: 5rem;
+    }
+
     .hero-content {
-      height: 80vh;
+      position: relative;
+      height: 65vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding-bottom: 10rem;
+      padding-bottom: 5rem;
       h1 {
         @extend %fontFamEn;
+        @extend %whiteColor;
       }
     }
     .card {
-      border: 0.5rem solid $main-color;
+      // border: 0.5rem solid $main-color;
+      margin: 0 0.5rem;
       .index-svg-icon {
         svg {
-          width: 90px;
+          width: 60px;
         }
       }
       &.add-data-card {

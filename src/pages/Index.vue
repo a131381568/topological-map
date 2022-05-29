@@ -1,5 +1,5 @@
 <template>
-  <div class="container relative home-layout">
+  <div class="container-fluid relative home-layout">
     <main class="flex-wrap d-flex justify-content-center align-items-center">
       <div class="w-100 text-center hero-content">
         <h1>Topological Map</h1>
