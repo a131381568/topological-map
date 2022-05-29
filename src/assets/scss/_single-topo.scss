@@ -51,6 +51,7 @@
     right: 0.5rem;
     bottom: 0;
     z-index: 2;
+    overflow-x: hidden;
     .topo-edit-dashboard-title {
       @extend %subBg;
       @extend %whiteColor;
@@ -259,5 +260,50 @@
   }
   .modal-footer {
     border: none;
+  }
+
+  // 檢視拓樸圖 - 無資料
+  .nothing-topology-data {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .nothing-svg-block {
+      max-width: 640px;
+      .card-img-col {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        .icon-outer {
+          @extend %mainBg;
+          height: 140px;
+          width: 140px;
+          border-radius: 50%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          svg {
+            width: 70px;
+            height: 100%;
+          }
+        }
+      }
+      .card-body {
+        padding: 2rem 2rem 2rem 0;
+      }
+      .nothing-edit-btn {
+        @extend %h8;
+        @extend %darkBg;
+        @extend %whiteColor;
+        display: inline-block;
+        border-radius: 3px;
+        padding: 0.6rem 1.8rem;
+        &:hover {
+          @extend %spBg;
+          @extend %darkColor;
+        }
+      }
+    }
   }
 }

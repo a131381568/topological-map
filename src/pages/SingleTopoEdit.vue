@@ -1,7 +1,10 @@
 <template>
   <main class="container">
     <TopoBoard></TopoBoard>
-    <div class="topo-edit-dashboard shadow">
+    <div
+      v-show="groupByCategoryLength !== 0"
+      class="topo-edit-dashboard shadow"
+    >
       <div class="topo-floor-container">
         <div class="topo-edit-dashboard-title h8">
           <svg
@@ -45,7 +48,6 @@
             >
               新增階層
             </button>
-
             <li
               v-for="(value, key) in groupByCategory"
               :key="key"
@@ -295,6 +297,7 @@
           <div class="modal-header">
             <h5 id="add-link-modal-label" class="modal-title">新增階層</h5>
             <button
+              v-show="groupByCategoryLength !== 0"
               type="button"
               class="btn-close"
               @click.prevent="handelCloseAddFloorModal"
@@ -330,6 +333,7 @@
           </div>
           <div class="modal-footer">
             <button
+              v-show="groupByCategoryLength !== 0"
               type="button"
               class="btn"
               @click.prevent="handelCloseAddFloorModal"
@@ -427,7 +431,12 @@ store.getFloorListDataInGroup(String(route.params.tid));
 // 將列表資料依據階層分群
 const groupByCategory = computed(() => store.get_groupByCategory);
 const groupByCategoryLength = computed(() => {
-  return Object.keys(store.get_groupByCategory).length;
+  const floorNum = Object.keys(store.get_groupByCategory).length;
+  // 如果沒有資料就跳新增階層燈箱
+  if (floorNum === 0) {
+    handelOpenAddFloorModal();
+  }
+  return floorNum;
 });
 
 // 切換連線
@@ -580,16 +589,16 @@ const addNodeItemAct = () => {
   }
 };
 
-onMounted(() => {
+onMounted(async () => {
   // 燈箱初始化
   if (addLinkModalRef.value !== null) {
-    addLinkGroupModal.value = new Modal(addLinkModalRef.value);
+    addLinkGroupModal.value = await new Modal(addLinkModalRef.value);
   }
   if (addFloorModalRef.value !== null) {
-    addFloorModal.value = new Modal(addFloorModalRef.value);
+    addFloorModal.value = await new Modal(addFloorModalRef.value);
   }
   if (addNodeModalRef.value !== null) {
-    addNodeModal.value = new Modal(addNodeModalRef.value);
+    addNodeModal.value = await new Modal(addNodeModalRef.value);
   }
 });
 </script>

@@ -1,12 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Index from "@/pages/Index.vue";
 import List from "@/pages/List.vue";
-import SingleTopo from "@/pages/SingleTopo.vue";
+import SingleTopoEdit from "@/pages/SingleTopoEdit.vue";
+import SingleTopoView from "@/pages/SingleTopoView.vue";
 import Group from "@/pages/Group.vue";
 
 const routes = [
   {
     path: "/",
+    name: "Home",
     component: Index,
     meta: {
       title: "Topological Map",
@@ -14,6 +16,7 @@ const routes = [
   },
   {
     path: "/list",
+    name: "List",
     component: List,
     meta: {
       title: "AP List",
@@ -21,13 +24,23 @@ const routes = [
   },
   {
     path: "/topo-edit/:tid",
-    component: SingleTopo,
+    name: "SingleTopoEdit",
+    component: SingleTopoEdit,
     meta: {
       title: "Topological Map Edit",
     },
   },
   {
+    path: "/topo-view/:tid",
+    name: "SingleTopoView",
+    component: SingleTopoView,
+    meta: {
+      title: "Topological Map",
+    },
+  },
+  {
     path: "/group",
+    name: "Group",
     component: Group,
     meta: {
       title: "Group",

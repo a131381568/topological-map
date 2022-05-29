@@ -1,6 +1,13 @@
 <template>
   <main class="container">
-    <table class="table ap-list-table">
+    <NothingBlock
+      v-show="listData.length === 0"
+      title="尚無資料"
+      content="無法產生節點列表，請至群組頁面新增群組，並進入編輯模式新增節點。"
+      btn-title="前往群組列表"
+      btn-link="/group"
+    ></NothingBlock>
+    <table v-show="listData.length > 0" class="table ap-list-table">
       <thead>
         <tr>
           <th scope="col">代號</th>

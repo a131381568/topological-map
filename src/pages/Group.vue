@@ -1,6 +1,21 @@
 <template>
   <main class="container">
-    <div class="d-flex justify-content-end mb-3">
+    <NothingBlock
+      v-show="store.get_groupConversion.length === 0"
+      title="尚無資料"
+      content="無法產生群組列表，請點選下方按鈕新增群組，並進入編輯模式新增節點。"
+      btn-title="新增群組"
+      btn-link="#"
+      @click.passive="handelOpenAddModal"
+    ></NothingBlock>
+    <div
+      v-show="store.get_groupConversion.length > 0"
+      :class="[
+        'justify-content-end',
+        'mb-3',
+        { 'd-flex': store.get_groupConversion.length > 0 },
+      ]"
+    >
       <button
         type="button"
         class="btn add-btn"
@@ -9,26 +24,50 @@
         +
       </button>
     </div>
-    <table class="table ap-list-table">
+    <table
+      v-show="store.get_groupConversion.length > 0"
+      class="table ap-list-table group-page-list"
+    >
       <thead>
         <tr>
-          <th scope="col">群組代號</th>
-          <th scope="col">群組名稱</th>
-          <th scope="col">編輯</th>
-          <th scope="col">刪除</th>
+          <th class="group-id-th" scope="col">群組代號</th>
+          <th class="group-name-th" scope="col">群組名稱</th>
+          <th class="group-view-th" scope="col">查看</th>
+          <th class="group-edit-th" scope="col">編輯</th>
+          <th class="group-del-th" scope="col">刪除</th>
         </tr>
       </thead>
       <tbody class="border-0">
         <tr v-for="(value, key) in store.get_groupConversion" :key="key">
           <td>{{ value.groupId }}</td>
-          <td>{{ value.groupName }}</td>
-          <td>
-            <!-- <button
-              class="btn"
-              @click.prevent="
-                handelOpenEditModal(value.groupId, value.groupName)
-              "
-            > -->
+          <td class="group-name-td">{{ value.groupName }}</td>
+          <td class="group-view-td">
+            <router-link :to="'/topo-view/' + value.groupId">
+              <svg
+                class="svg-icon-outer"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 48 48"
+              >
+                <g id="Layer_2" data-name="Layer 2">
+                  <g id="layer_1-2" data-name="layer 1">
+                    <path
+                      class="svg-icon"
+                      d="M42 48H6a6 6 0 0 1-6-6V6a6 6 0 0 1 6-6h36a6 6 0 0 1 6 6v36a6 6 0 0 1-6 6zM6 2a4 4 0 0 0-4 4v36a4 4 0 0 0 4 4h36a4 4 0 0 0 4-4V6a4 4 0 0 0-4-4z"
+                    />
+                    <path
+                      class="svg-icon"
+                      d="M4 4h2v2H4zM8 4h2v2H8zM12 4h2v2h-2zM1 8h46v2H1zM36.29 47.71 11 22.41l-9.29 9.3-1.42-1.42 10-10a1 1 0 0 1 1.42 0l26 26z"
+                    />
+                    <path
+                      class="svg-icon"
+                      d="M46.29 40.71 34 28.41l-7.29 7.3-1.42-1.42 8-8a1 1 0 0 1 1.42 0l13 13zM28 24a5 5 0 1 1 5-5 5 5 0 0 1-5 5zm0-8a3 3 0 1 0 3 3 3 3 0 0 0-3-3z"
+                    />
+                  </g>
+                </g>
+              </svg>
+            </router-link>
+          </td>
+          <td class="group-edit-td">
             <router-link :to="'/topo-edit/' + value.groupId">
               <svg
                 class="svg-icon-outer"
@@ -44,7 +83,7 @@
               </svg>
             </router-link>
           </td>
-          <td>
+          <td class="group-del-td">
             <button
               class="btn del-group-btn"
               @click.prevent="handelOpenDelModal(value.groupId)"
@@ -227,7 +266,7 @@
 import { listDataType } from "@/type/types";
 import { topoList } from "@/api/user";
 import { Modal } from "bootstrap";
-// const route = useRoute();
+// const router = useRouter();
 const store = useStore();
 
 // 新增群組燈箱設定

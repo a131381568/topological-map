@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="groupByCategoryLength > 0"
     class="topology-container"
     :style="{ height: groupByCategoryLength * 180 + 'px' }"
   >
@@ -42,10 +43,20 @@
       </div>
     </div>
   </div>
+  <NothingBlock
+    v-else
+    title="無數據資料"
+    content="無法產生拓樸圖，請至編輯模式新增階層、節點，使其產生圖表。"
+    btn-title="新增階層"
+    :btn-link="'/topo-edit/' + routePath"
+  ></NothingBlock>
 </template>
 <script setup lang="ts">
 import * as d3 from "d3";
 const store = useStore();
+const route = useRoute();
+const routePath = route.params.tid;
+
 // type groupListDataType = { [index: string]: listDataType };
 // type listDataType = {
 //   id: string;

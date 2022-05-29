@@ -7,6 +7,7 @@ declare module "@vue/runtime-core" {
     BottomFooter: typeof import("./src/components/BottomFooter.vue")["default"];
     HelloWorld: typeof import("./src/components/HelloWorld.vue")["default"];
     LoadingSpinners: typeof import("./src/components/LoadingSpinners.vue")["default"];
+    NothingBlock: typeof import("./src/components/NothingBlock.vue")["default"];
     RouterLink: typeof import("vue-router")["RouterLink"];
     RouterView: typeof import("vue-router")["RouterView"];
     TopHeader: typeof import("./src/components/TopHeader.vue")["default"];
