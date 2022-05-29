@@ -1006,21 +1006,57 @@
         </svg>
       </router-link>
     </div>
-    <div
-      id="navbarSupportedContent"
-      class="collapse navbar-collapse justify-content-center"
-    >
-      <ul class="navbar-nav">
-        <li class="nav-item"><router-link to="/">Home</router-link></li>
-        <li class="nav-item"><router-link to="/about">About</router-link></li>
-        <li class="nav-item"><router-link to="/group">Group</router-link></li>
-        <li class="nav-item">
-          <router-link to="/list">List</router-link>
+    <!-- desktop menu -->
+    <div class="desktop-menu-container">
+      <div
+        id="navbarSupportedContent"
+        class="collapse navbar-collapse justify-content-center"
+      >
+        <ul class="navbar-nav">
+          <li class="nav-item"><router-link to="/">Home</router-link></li>
+          <li class="nav-item"><router-link to="/about">About</router-link></li>
+          <li class="nav-item"><router-link to="/group">Group</router-link></li>
+          <li class="nav-item">
+            <router-link to="/list">List</router-link>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- mobile menu -->
+    <div class="btn-group mobile-menu-container dropdown">
+      <button
+        id="mobile-menu-dropdown-btn"
+        class="btn dropdown-toggle"
+        type="button"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
+        {{ mobileRouteTitle }}
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="mobile-menu-dropdown-btn">
+        <li><router-link class="dropdown-item" to="/">Home</router-link></li>
+        <li>
+          <router-link class="dropdown-item" to="/about">About</router-link>
+        </li>
+        <li>
+          <router-link class="dropdown-item" to="/group">Group</router-link>
+        </li>
+        <li>
+          <router-link class="dropdown-item" to="/list">List</router-link>
         </li>
       </ul>
     </div>
   </header>
 </template>
 <script setup lang="ts">
-//
+const route = useRoute();
+const mobileRouteTitle = computed(() => {
+  let routeName = "Home";
+  if (route.name === "SingleTopoEdit" || route.name === "SingleTopoView") {
+    routeName = "Group";
+  } else {
+    routeName = route.name as string;
+  }
+  return routeName;
+});
 </script>

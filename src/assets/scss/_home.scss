@@ -7,7 +7,7 @@
     background-size: cover;
     background-attachment: fixed;
     main {
-      padding-bottom: 5rem;
+      padding-bottom: 30vh;
     }
 
     .hero-content {
@@ -20,11 +20,20 @@
       h1 {
         @extend %fontFamEn;
         @extend %whiteColor;
+        letter-spacing: 0.5rem;
+        // 手機以下
+        @include phone-w {
+          font-size: $h4;
+        }
       }
     }
     .card {
       // border: 0.5rem solid $main-color;
       margin: 0 0.5rem;
+      // 平板以下
+      @include pads-phone-w {
+        margin-bottom: 1rem;
+      }
       .index-svg-icon {
         svg {
           width: 60px;

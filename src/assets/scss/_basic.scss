@@ -125,6 +125,16 @@ html {
           @extend %darkColor;
         }
       }
+      .sp-btn {
+        @extend %spBg;
+        @extend %darkColor;
+        font-weight: 400;
+        width: 140px;
+        &:hover {
+          @extend %darkBg;
+          @extend %whiteColor;
+        }
+      }
       .form-control {
         &:focus {
           box-shadow: none;
@@ -142,6 +152,10 @@ html {
         // min-height: 900px;
         padding: 4rem 5rem;
         min-height: calc(100vh - 151px - 53px);
+        // 手機以下
+        @include phone-w {
+          padding: 4rem 0.5rem;
+        }
       }
     }
     // vue fade

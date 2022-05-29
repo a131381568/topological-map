@@ -17,4 +17,36 @@ header {
       text-transform: uppercase;
     }
   }
+  .desktop-menu-container {
+    width: 100%;
+    // 手機以下
+    @include phone-w {
+      display: none;
+    }
+  }
+  .mobile-menu-container {
+    // 手機以上
+    @include phone-w-outer {
+      display: none;
+    }
+    width: 100%;
+    margin: 1rem auto;
+    #mobile-menu-dropdown-btn {
+      @extend %whiteBg;
+      @extend %darkColor;
+      @extend %fontFamEn;
+      text-align: left;
+      width: 100%;
+      &:after {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+      }
+    }
+    .dropdown-menu {
+      @extend %fontFamEn;
+      border: none;
+      width: 100%;
+    }
+  }
 }
