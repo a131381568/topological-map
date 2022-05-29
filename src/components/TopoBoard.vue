@@ -1,62 +1,79 @@
 <template>
-  <div
-    v-if="groupByCategoryLength > 0"
-    class="topology-container"
-    :style="{ height: groupByCategoryLength * 180 + 'px' }"
-  >
-    <div class="floor-container">
+  <div class="topo-board-outer" style="overflow-x: scroll">
+    <perfect-scrollbar :style="rwdDashboardStyle">
       <div
-        v-for="(value, key) in groupByCategory"
-        :key="key"
-        class="floor d-flex justify-content-between align-items-center"
+        v-if="groupByCategoryLength > 0"
+        class="topology-container"
+        :style="{ height: groupByCategoryLength * 180 + 'px' }"
       >
-        <div class="floor-title d-flex h6 mb-0 wdwdwdwd">
-          {{ store.changeFloorName(String(key)) }}
-        </div>
-        <div class="floor-content d-flex justify-content-around">
+        <div class="floor-container">
           <div
-            v-for="(inneritem, innerkey) in value"
-            :key="innerkey"
-            class="server-item text-center"
+            v-for="(value, key) in groupByCategory"
+            :key="key"
+            class="floor d-flex justify-content-between align-items-center"
           >
-            <div :class="['server-item-bg', inneritem.id]">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 64 64"
-                class="server-icon"
-              >
-                <g id="server-icon-inner">
-                  <path
-                    d="M57,5H7A1,1,0,0,0,6,6V34a1,1,0,0,0,1,1H57a1,1,0,0,0,1-1V6A1,1,0,0,0,57,5ZM56,33H8V7H56Z"
-                  />
-                  <path
-                    d="M57,1H7A5.0059,5.0059,0,0,0,2,6V42a5.0059,5.0059,0,0,0,5,5H24v4H14a1,1,0,0,0-.8945.5527l-5,10A1,1,0,0,0,9,63H55a1,1,0,0,0,.8945-1.4473l-5-10A1,1,0,0,0,50,51H40V47H57a5.0059,5.0059,0,0,0,5-5V6A5.0059,5.0059,0,0,0,57,1ZM4,6A3.0033,3.0033,0,0,1,7,3H57a3.0033,3.0033,0,0,1,3,3V37H4ZM38,52a6.0066,6.0066,0,0,0,6,6,1,1,0,0,0,0-2,3.9958,3.9958,0,0,1-3.858-3h9.24l4,8H10.6182l4-8h9.24A3.9958,3.9958,0,0,1,20,56a1,1,0,0,0,0,2,6.0066,6.0066,0,0,0,6-6V47H38ZM60,42a3.0033,3.0033,0,0,1-3,3H7a3.0033,3.0033,0,0,1-3-3V39H60Z"
-                  />
-                  <path d="M7,43h6a1,1,0,0,0,0-2H7a1,1,0,0,0,0,2Z" />
-                  <path d="M16,43h2a1,1,0,0,0,0-2H16a1,1,0,0,0,0,2Z" />
-                </g>
-              </svg>
+            <div class="floor-title d-flex h6 mb-0 wdwdwdwd">
+              {{ store.changeFloorName(String(key)) }}
             </div>
-            <div class="h8 server-item-name mt-1">{{ inneritem.title }}</div>
+            <div class="floor-content d-flex justify-content-around">
+              <div
+                v-for="(inneritem, innerkey) in value"
+                :key="innerkey"
+                class="server-item text-center"
+              >
+                <div :class="['server-item-bg', inneritem.id]">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 64 64"
+                    class="server-icon"
+                  >
+                    <g id="server-icon-inner">
+                      <path
+                        d="M57,5H7A1,1,0,0,0,6,6V34a1,1,0,0,0,1,1H57a1,1,0,0,0,1-1V6A1,1,0,0,0,57,5ZM56,33H8V7H56Z"
+                      />
+                      <path
+                        d="M57,1H7A5.0059,5.0059,0,0,0,2,6V42a5.0059,5.0059,0,0,0,5,5H24v4H14a1,1,0,0,0-.8945.5527l-5,10A1,1,0,0,0,9,63H55a1,1,0,0,0,.8945-1.4473l-5-10A1,1,0,0,0,50,51H40V47H57a5.0059,5.0059,0,0,0,5-5V6A5.0059,5.0059,0,0,0,57,1ZM4,6A3.0033,3.0033,0,0,1,7,3H57a3.0033,3.0033,0,0,1,3,3V37H4ZM38,52a6.0066,6.0066,0,0,0,6,6,1,1,0,0,0,0-2,3.9958,3.9958,0,0,1-3.858-3h9.24l4,8H10.6182l4-8h9.24A3.9958,3.9958,0,0,1,20,56a1,1,0,0,0,0,2,6.0066,6.0066,0,0,0,6-6V47H38ZM60,42a3.0033,3.0033,0,0,1-3,3H7a3.0033,3.0033,0,0,1-3-3V39H60Z"
+                      />
+                      <path d="M7,43h6a1,1,0,0,0,0-2H7a1,1,0,0,0,0,2Z" />
+                      <path d="M16,43h2a1,1,0,0,0,0-2H16a1,1,0,0,0,0,2Z" />
+                    </g>
+                  </svg>
+                </div>
+                <div class="h8 server-item-name mt-1">
+                  {{ inneritem.title }}
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+      <NothingBlock
+        v-else
+        title="無數據資料"
+        content="無法產生拓樸圖，請至編輯模式新增階層、節點，使其產生圖表。"
+        btn-title="新增階層"
+        :btn-link="'/topo-edit/' + routePath"
+      ></NothingBlock>
+    </perfect-scrollbar>
   </div>
-  <NothingBlock
-    v-else
-    title="無數據資料"
-    content="無法產生拓樸圖，請至編輯模式新增階層、節點，使其產生圖表。"
-    btn-title="新增階層"
-    :btn-link="'/topo-edit/' + routePath"
-  ></NothingBlock>
 </template>
 <script setup lang="ts">
 import * as d3 from "d3";
 const store = useStore();
 const route = useRoute();
 const routePath = route.params.tid;
-
+const rwdDashboard = ref(false);
+const rwdDashboardStyle = computed(() => {
+  let styleResult = {
+    width: "auto",
+    "overflow-x": "hidden",
+  };
+  if (rwdDashboard.value === true) {
+    styleResult["width"] = "1140px";
+    styleResult["overflow-x"] = "scroll";
+  }
+  return styleResult;
+});
 // type groupListDataType = { [index: string]: listDataType };
 // type listDataType = {
 //   id: string;
@@ -76,6 +93,13 @@ const groupByCategoryLength = computed(
 );
 
 const topoBoardInit = () => {
+  const viewport_width = window.innerWidth;
+  if (viewport_width <= 1200) {
+    rwdDashboard.value = true;
+  } else {
+    rwdDashboard.value = false;
+  }
+
   // 取得座標函式
   const getPosition = (className: string) => {
     let element: HTMLElement | null = document.querySelector(className);
@@ -253,6 +277,7 @@ const throttled = (fn: GreetFunction, delay: number) => {
 };
 
 const onResize = () => {
+  // console.log(event.target.screen.width);
   topoBoardInit();
 };
 

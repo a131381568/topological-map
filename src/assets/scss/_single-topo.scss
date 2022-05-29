@@ -300,6 +300,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    // 手機以下
+    @include phone-w {
+      padding: 0 0.5rem;
+    }
     .nothing-svg-block {
       max-width: 640px;
       .card-img-col {
@@ -315,6 +319,11 @@
           display: flex;
           justify-content: center;
           align-items: center;
+          // 平板以下
+          @include pads-phone-w {
+            margin-top: 1rem;
+          }
+
           svg {
             width: 70px;
             height: 100%;
@@ -323,6 +332,10 @@
       }
       .card-body {
         padding: 2rem 2rem 2rem 0;
+        // 平板以下
+        @include pads-phone-w {
+          padding: 1rem;
+        }
       }
       .nothing-edit-btn {
         @extend %h8;

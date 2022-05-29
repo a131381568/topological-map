@@ -43,36 +43,49 @@
   display: flex;
   justify-content: center;
 }
-// 群組列表
-// .group-page-list {
-//   .group-id-th {
-//     width: 40%;
-//   }
-//   .group-name-th {
-//     width: auto;
-//   }
-//   .group-view-th {
-//     width: 10%;
-//     text-align: right;
-//   }
-//   .group-edit-th {
-//     width: 10%;
-//     text-align: right;
-//   }
-//   .group-del-th {
-//     width: 10%;
-//     text-align: right;
-//   }
-//   .group-name-td {
-//     @extend .group-name-th;
-//   }
-//   .group-view-td {
-//     @extend .group-view-th;
-//   }
-//   .group-edit-td {
-//     @extend .group-edit-th;
-//   }
-//   .group-del-td {
-//     @extend .group-del-th;
-//   }
-// }
+
+@media only screen and (max-width: 992px) {
+  table.rwd-table,
+  .rwd-table thead,
+  .rwd-table tbody,
+  .rwd-table th,
+  .rwd-table tr {
+    display: block;
+  }
+  .rwd-table thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+  .rwd-table tr {
+    border-bottom: 1px solid $dark-color;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  .rwd-table.rwd-table.rwd-table td {
+    border: none;
+    position: relative;
+    padding-left: 6rem;
+    padding-top: 0.4rem;
+    height: 2rem;
+    display: inline-block;
+    width: calc(100% - 85px);
+  }
+  .rwd-table td:nth-of-type(n + 1):before {
+    content: attr(data-label);
+    color: $dark-color;
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    width: 85px;
+    padding-right: 10px;
+    white-space: nowrap;
+    font-weight: bold;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .rwd-table.rwd-table.rwd-table.rwd-table td {
+    width: 100%;
+  }
+}

@@ -7,7 +7,7 @@
       btn-title="前往群組列表"
       btn-link="/group"
     ></NothingBlock>
-    <table v-show="listData.length > 0" class="table ap-list-table">
+    <table v-show="listData.length > 0" class="table ap-list-table rwd-table">
       <thead>
         <tr>
           <th scope="col">代號</th>
@@ -24,11 +24,13 @@
           v-show="key < actionPagi * 8"
           :key="key"
         >
-          <td>{{ value.id }}</td>
-          <td>{{ value.title }}</td>
-          <td>{{ store.changeGroupName(value.groupId) }}</td>
-          <td>{{ store.changeDate(value.time) }}</td>
-          <td>
+          <td data-label="節點代號:">{{ value.id }}</td>
+          <td data-label="節點名稱:">{{ value.title }}</td>
+          <td data-label="隸屬群組:">
+            {{ store.changeGroupName(value.groupId) }}
+          </td>
+          <td data-label="新增時間:">{{ store.changeDate(value.time) }}</td>
+          <td data-label="編輯節點:">
             <router-link :to="'/topo-edit/' + value.groupId">
               <svg
                 class="svg-icon-outer"
@@ -44,7 +46,7 @@
               </svg>
             </router-link>
           </td>
-          <td>
+          <td data-label="刪除節點:">
             <svg
               class="svg-icon-outer"
               xmlns="http://www.w3.org/2000/svg"

@@ -26,7 +26,7 @@
     </div>
     <table
       v-if="store.get_groupConversion.length > 0"
-      class="table ap-list-table group-page-list"
+      class="table ap-list-table group-page-list rwd-table"
     >
       <thead>
         <tr>
@@ -43,9 +43,11 @@
           v-show="key < actionPagi * 8"
           :key="key"
         >
-          <td>{{ value.groupId }}</td>
-          <td class="group-name-td">{{ value.groupName }}</td>
-          <td class="group-view-td">
+          <td data-label="群組代號:">{{ value.groupId }}</td>
+          <td data-label="群組名稱:" class="group-name-td">
+            {{ value.groupName }}
+          </td>
+          <td data-label="查看群組:" class="group-view-td">
             <router-link :to="'/topo-view/' + value.groupId">
               <svg
                 class="svg-icon-outer"
@@ -71,7 +73,7 @@
               </svg>
             </router-link>
           </td>
-          <td class="group-edit-td">
+          <td data-label="編輯群組:" class="group-edit-td">
             <router-link :to="'/topo-edit/' + value.groupId">
               <svg
                 class="svg-icon-outer"
@@ -87,7 +89,7 @@
               </svg>
             </router-link>
           </td>
-          <td class="group-del-td">
+          <td data-label="刪除群組:" class="group-del-td">
             <button
               class="btn del-group-btn"
               @click.prevent="handelOpenDelModal(value.groupId)"
