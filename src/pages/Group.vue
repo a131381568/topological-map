@@ -25,7 +25,7 @@
       </button>
     </div>
     <table
-      v-show="store.get_groupConversion.length > 0"
+      v-if="store.get_groupConversion.length > 0"
       class="table ap-list-table group-page-list"
     >
       <thead>
@@ -38,7 +38,11 @@
         </tr>
       </thead>
       <tbody class="border-0">
-        <tr v-for="(value, key) in store.get_groupConversion" :key="key">
+        <tr
+          v-for="(value, key) in store.get_groupConversion"
+          v-show="key < actionPagi * 8"
+          :key="key"
+        >
           <td>{{ value.groupId }}</td>
           <td class="group-name-td">{{ value.groupName }}</td>
           <td class="group-view-td">
@@ -105,6 +109,18 @@
         </tr>
       </tbody>
     </table>
+    <div
+      v-show="actionPagi < Math.ceil(store.get_groupConversion.length / 8)"
+      class="load-more-outer"
+    >
+      <button
+        type="button"
+        class="btn load-more-btn h8"
+        @click.prevent="loadMoreData"
+      >
+        載入更多
+      </button>
+    </div>
     <!-- Add Modal -->
     <div
       id="add-group-modal"
@@ -263,11 +279,20 @@
   </main>
 </template>
 <script setup lang="ts">
-import { listDataType } from "@/type/types";
-import { topoList } from "@/api/user";
+// import { listDataType } from "@/type/types";
+// import { topoList } from "@/api/user";
 import { Modal } from "bootstrap";
 // const router = useRouter();
 const store = useStore();
+const actionPagi = ref<number>(0);
+const pagiInit = () => {
+  if (store.get_groupConversion.length > 0) {
+    actionPagi.value = 1;
+  }
+};
+const loadMoreData = () => {
+  actionPagi.value = actionPagi.value + 1;
+};
 
 // 新增群組燈箱設定
 const addGroupModalRef = ref<HTMLElement | null>(null);
@@ -288,6 +313,8 @@ const addGroupAct = () => {
       // 確定新增
       store.addGroupToList(addGroupIdVal.value, addGroupNameVal.value);
       handelCloseAddModal();
+      // 如果只有一篇，就再補上頁數
+      pagiInit();
     }
   }
 };
@@ -363,17 +390,12 @@ onMounted(() => {
   if (editGroupModalRef.value !== null) {
     editGroupModal.value = new Modal(editGroupModalRef.value);
   }
+  pagiInit();
 });
-const listData = ref<listDataType>([]);
-async function testPost() {
-  let res = await topoList();
-  // console.log(res);
-  listData.value = res.data.data;
-}
-testPost();
-</script>
-<style scoped lang="scss">
-// .ap-list {
-//   @extend %subBg;
+// const listData = ref<listDataType>([]);
+// async function testPost() {
+//   let res = await topoList();
+//   listData.value = res.data.data;
 // }
-</style>
+// testPost();
+</script>

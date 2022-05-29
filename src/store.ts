@@ -1,3 +1,5 @@
+import { topoListReq, topoGroupReq, topoFloorReq } from "@/api/user";
+
 import { defineStore } from "pinia";
 import {
   groupConversionType,
@@ -17,214 +19,10 @@ export const useStore = defineStore("main", {
     version: versionString,
     isInitialized: false,
     count: 0,
-    groupConversion: <groupConversionType>[
-      {
-        groupId: "city-university",
-        groupName: "城市大學",
-      },
-      {
-        groupId: "first-net",
-        groupName: "第一網絡",
-      },
-      {
-        groupId: "home-test",
-        groupName: "家用測試",
-      },
-    ],
-    totalTopoListData: <listDataType>[
-      {
-        id: "ap1126",
-        title: "教學樓",
-        floor: "cat001",
-        time: 1653344520000,
-        groupId: "city-university",
-        link: ["ap1130"],
-      },
-      {
-        id: "ap1127",
-        title: "宿舍樓",
-        floor: "cat001",
-        time: 1653344580000,
-        groupId: "city-university",
-        link: ["ap1126", "ap1131"],
-      },
-      {
-        id: "ap1128",
-        title: "辦公樓",
-        floor: "cat001",
-        time: 1653344640000,
-        groupId: "city-university",
-        link: ["ap1132"],
-      },
-      {
-        id: "ap1129",
-        title: "活動樓",
-        floor: "cat001",
-        time: 1653344700000,
-        groupId: "city-university",
-        link: ["ap1133"],
-      },
-      {
-        id: "ap1130",
-        title: "教學樓中繼",
-        floor: "cat002",
-        time: 1653344760000,
-        groupId: "city-university",
-        link: ["ap1134"],
-      },
-      {
-        id: "ap1131",
-        title: "宿舍樓中繼",
-        floor: "cat002",
-        time: 1653344820000,
-        groupId: "city-university",
-        link: ["ap1134"],
-      },
-      {
-        id: "ap1132",
-        title: "辦公樓中繼",
-        floor: "cat002",
-        time: 1653344880000,
-        groupId: "city-university",
-        link: ["ap1135"],
-      },
-      {
-        id: "ap1133",
-        title: "活動樓中繼",
-        floor: "cat002",
-        time: 1653344940000,
-        groupId: "city-university",
-        link: ["ap1135"],
-      },
-      {
-        id: "ap1134",
-        title: "內部服務",
-        floor: "cat003",
-        time: 1653345000000,
-        groupId: "city-university",
-        link: ["ap1136"],
-      },
-      {
-        id: "ap1135",
-        title: "外部服務",
-        floor: "cat003",
-        time: 1653345060000,
-        groupId: "city-university",
-        link: ["ap1136"],
-      },
-      {
-        id: "ap1136",
-        title: "總服務器",
-        floor: "cat004",
-        time: 1653345120000,
-        groupId: "city-university",
-        link: [],
-      },
-      {
-        id: "ap1137",
-        title: "總伺服器",
-        floor: "rewgewgrwgwegg",
-        time: 1653345220000,
-        groupId: "first-net",
-        link: [],
-      },
-      {
-        id: "ap1138",
-        title: "委外網路管理",
-        floor: "eqfqewfqwdwdd",
-        time: 1653345320000,
-        groupId: "home-test",
-        link: [],
-      },
-      {
-        id: "n82hgomn5weo",
-        title: "管理室",
-        floor: "3ydh6iwcpe",
-        time: 1653740831315,
-        groupId: "home-test",
-        link: ["nhj2lf9btzgo", "n5vt8tauuuh4"],
-      },
-      {
-        id: "nhj2lf9btzgo",
-        title: "管委會 A",
-        floor: "968rtipgw9",
-        time: 1653740836810,
-        groupId: "home-test",
-        link: [],
-      },
-      {
-        id: "n5vt8tauuuh4",
-        title: "管委會 B",
-        floor: "968rtipgw9",
-        time: 1653740841930,
-        groupId: "home-test",
-        link: [],
-      },
-      {
-        id: "nnvpebzx7dsw",
-        title: "管委會 C",
-        floor: "968rtipgw9",
-        time: 1653740846754,
-        groupId: "home-test",
-        link: ["ap1138"],
-      },
-      {
-        id: "nek1i2739dgo",
-        title: "管理員",
-        floor: "8vly0dmn3e",
-        time: 1653741415275,
-        groupId: "first-net",
-        link: ["ap1137"],
-      },
-    ],
+    groupConversion: <groupConversionType>[],
+    totalTopoListData: <listDataType>[],
     singleTopoListData: <listDataType>[],
-    totalfloorConversion: <floorConversionType>[
-      {
-        floorId: "cat001",
-        floorName: "使用者",
-        groupId: "city-university",
-      },
-      {
-        floorId: "cat002",
-        floorName: "中繼站",
-        groupId: "city-university",
-      },
-      {
-        floorId: "cat003",
-        floorName: "管理員",
-        groupId: "city-university",
-      },
-      {
-        floorId: "cat004",
-        floorName: "主系統",
-        groupId: "city-university",
-      },
-      {
-        floorId: "rewgewgrwgwegg",
-        floorName: "網路系統 A",
-        groupId: "first-net",
-      },
-      {
-        floorId: "8vly0dmn3e",
-        floorName: "網路系統 B",
-        groupId: "first-net",
-      },
-      {
-        floorId: "eqfqewfqwdwdd",
-        floorName: "社區 A",
-        groupId: "home-test",
-      },
-      {
-        floorId: "3ydh6iwcpe",
-        floorName: "社區 B",
-        groupId: "home-test",
-      },
-      {
-        floorId: "968rtipgw9",
-        floorName: "社區 C",
-        groupId: "home-test",
-      },
-    ],
+    totalfloorConversion: <floorConversionType>[],
     floorConversion: <floorConversionType>[],
     loadingModal: false,
   }),
@@ -571,6 +369,25 @@ export const useStore = defineStore("main", {
         }
       });
       this.floorConversion = allFloorList;
+    },
+    updateNodeName(nodeId: string, newNodeName: string) {
+      const singleNodeList: listDataType = JSON.parse(
+        JSON.stringify(this.singleTopoListData)
+      );
+      singleNodeList.forEach((item) => {
+        if (item.id === nodeId) {
+          item.title = newNodeName;
+        }
+      });
+      this.singleTopoListData = singleNodeList;
+    },
+    async initExampleData() {
+      const list = await topoListReq();
+      this.totalTopoListData = list.data.data;
+      const group = await topoGroupReq();
+      this.groupConversion = group.data.data;
+      const floor = await topoFloorReq();
+      this.totalfloorConversion = floor.data.data;
     },
   },
   getters: {

@@ -1,0 +1,60 @@
+#app {
+  .home-layout {
+    .hero-content {
+      height: 80vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding-bottom: 10rem;
+      h1 {
+        @extend %fontFamEn;
+      }
+    }
+    .card {
+      border: 0.5rem solid $main-color;
+      .index-svg-icon {
+        svg {
+          width: 90px;
+        }
+      }
+      &.add-data-card {
+        .add-group-btn {
+          @extend %darkBg;
+          @extend %whiteColor;
+          width: 100%;
+          &:hover {
+            @extend %subBg;
+          }
+        }
+      }
+      &.example-card {
+        .btn {
+          @extend %whiteColor;
+          border-radius: 4px;
+          width: calc(50% - 2px);
+        }
+        .download-btn {
+          @extend %subBg;
+          &:hover {
+            @extend %darkBg;
+          }
+        }
+        .view-btn {
+          @extend %grayBg;
+          pointer-events: none;
+          left: 4px;
+          &.can-view {
+            @extend %spBg;
+            @extend %darkColor;
+            cursor: pointer;
+            pointer-events: auto;
+            &:hover {
+              @extend %darkBg;
+              @extend %whiteColor;
+            }
+          }
+        }
+      }
+    }
+  }
+}

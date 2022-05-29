@@ -14,9 +14,23 @@ export const loginReq = (
   });
 };
 
-export const topoList = (): AxiosPromise<ResponseData> => {
+export const topoListReq = (): AxiosPromise<ResponseData> => {
   return axios.request({
     url: "https://private-2afaaa-toponet.apiary-mock.com/list",
+    method: "GET",
+  });
+};
+
+export const topoGroupReq = (): AxiosPromise<ResponseData> => {
+  return axios.request({
+    url: "https://private-2afaaa-toponet.apiary-mock.com/group",
+    method: "GET",
+  });
+};
+
+export const topoFloorReq = (): AxiosPromise<ResponseData> => {
+  return axios.request({
+    url: "https://private-2afaaa-toponet.apiary-mock.com/floor",
     method: "GET",
   });
 };

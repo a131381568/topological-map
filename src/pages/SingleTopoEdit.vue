@@ -148,10 +148,6 @@
                       :aria-labelledby="'flush-heading-' + nodeKey + '-' + key"
                       :data-bs-parent="'accordion-flush-' + key"
                     >
-                      <!-- 連線項目 -->
-                      <!-- <div class="topo-node-link-header">
-                        <span class="topo-node-link-title h8">連線項目</span>
-                      </div> -->
                       <ul class="topo-node-link-list">
                         <li
                           v-for="(linkItem, linkKey) in nodeItem.link"
@@ -226,6 +222,35 @@
                         "
                       >
                         新增連線
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          viewBox="0 0 20 19"
+                          style="enable-background: new 0 0 20 19"
+                          xml:space="preserve"
+                        >
+                          <path
+                            d="M-1 5.1 4 10V7h15V3H4V0zM-1 16h15v3l5-4.9L14 9v3H-1z"
+                          />
+                        </svg>
+                      </button>
+                      <button
+                        class="edit-node-name-item h8 btn"
+                        @click.prevent="
+                          handelOpenEditNodeModal(nodeItem.id, nodeItem.title)
+                        "
+                      >
+                        節點名稱
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="20"
+                          height="20.092"
+                          viewBox="0 0 30 30"
+                        >
+                          <path
+                            d="m12 0 2.561 2.537-6.975 6.976 2.828 2.828 6.988-6.988L20 7.927 19.998 0H12z"
+                          />
+                          <path d="M9 4.092v-2H0v18h18v-9h-2v7H2v-14h7z" />
+                        </svg>
                       </button>
                     </div>
                   </li>
@@ -496,6 +521,60 @@
         </div>
       </div>
     </div>
+    <!-- Edit Node Name Modal -->
+    <div
+      id="edit-node-modal"
+      ref="editNodeModalRef"
+      class="modal fade"
+      data-bs-backdrop="static"
+      data-bs-keyboard="false"
+      tabindex="-1"
+    >
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 id="edit-floor-modal-label" class="modal-title">
+              編輯節點名稱
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              @click.prevent="handelCloseEditNodeModal"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <div class="input-group mb-3">
+              <span id="inputGroup-sizing-node-name" class="input-group-text"
+                >節點名稱</span
+              >
+              <input
+                v-model="actionEditNodeNameVal"
+                type="text"
+                class="form-control"
+                aria-label="sizing-input-node-name"
+                aria-describedby="inputGroup-sizing-node-name"
+              />
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn"
+              @click.prevent="handelCloseEditNodeModal"
+            >
+              取消
+            </button>
+            <button
+              type="button"
+              class="btn sub-bg text-white"
+              @click.prevent="editNodeAct"
+            >
+              確定
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
 </template>
 <script setup lang="ts">
@@ -705,16 +784,40 @@ const handelCloseEditFloorModal = () => {
 const editFloorAct = () => {
   const floorNameValCheck =
     actionEditFloorNameVal.value.replace(/(^s*)|(s*$)/g, "").length === 0;
-  console.log(`
-      actionEditFloorId: ${actionEditFloorId.value}
-      actionEditFloorNameVal: ${actionEditFloorNameVal.value}
-    `);
   if (!floorNameValCheck) {
     store.updateFloorConversion(
       actionEditFloorId.value,
       actionEditFloorNameVal.value
     );
     handelCloseEditFloorModal();
+  }
+};
+
+// ====================== 編輯節點名稱相關 ======================
+const editNodeModalRef = ref<HTMLElement | null>(null);
+const editNodeModal = ref<Modal | null>(null);
+const actionEditNodeNameVal = ref<string>("");
+const actionEditNodeId = ref<string>("");
+const handelOpenEditNodeModal = (nodeId: string, nodeName: string) => {
+  if (editNodeModal.value !== null && route.params.tid) {
+    actionEditNodeId.value = nodeId;
+    actionEditNodeNameVal.value = nodeName;
+    editNodeModal.value.show();
+  }
+};
+const handelCloseEditNodeModal = () => {
+  if (editNodeModal.value !== null) {
+    editNodeModal.value.hide();
+    actionEditNodeNameVal.value = "";
+    actionEditNodeId.value = "";
+  }
+};
+const editNodeAct = () => {
+  const nodeNameValCheck =
+    actionEditNodeNameVal.value.replace(/(^s*)|(s*$)/g, "").length === 0;
+  if (!nodeNameValCheck) {
+    store.updateNodeName(actionEditNodeId.value, actionEditNodeNameVal.value);
+    handelCloseEditNodeModal();
   }
 };
 
@@ -731,6 +834,9 @@ onMounted(async () => {
   }
   if (editFloorModalRef.value !== null) {
     editFloorModal.value = await new Modal(editFloorModalRef.value);
+  }
+  if (editNodeModalRef.value !== null) {
+    editNodeModal.value = await new Modal(editNodeModalRef.value);
   }
   // 取得群組對照名稱
   const groupConversion = await store.get_groupConversion;

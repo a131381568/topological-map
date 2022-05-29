@@ -222,10 +222,24 @@
                   }
                 }
               }
+              .edit-node-name-item {
+                font-weight: 300;
+                &:hover {
+                  @extend %spColor;
+                  svg {
+                    fill: $sp-color;
+                  }
+                }
+              }
               .add-node-link-item {
                 @extend %subBg;
                 @extend %whiteColor;
                 font-weight: 300;
+                svg {
+                  width: 13px;
+                  fill: $white-color;
+                  margin-bottom: 3px;
+                }
                 &:hover {
                   @extend %darkBg;
                 }
@@ -286,7 +300,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-
     .nothing-svg-block {
       max-width: 640px;
       .card-img-col {

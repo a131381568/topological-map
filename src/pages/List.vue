@@ -19,7 +19,11 @@
         </tr>
       </thead>
       <tbody class="border-0">
-        <tr v-for="(value, key) in listData" :key="key">
+        <tr
+          v-for="(value, key) in listData"
+          v-show="key < actionPagi * 8"
+          :key="key"
+        >
           <td>{{ value.id }}</td>
           <td>{{ value.title }}</td>
           <td>{{ store.changeGroupName(value.groupId) }}</td>
@@ -58,9 +62,18 @@
         </tr>
       </tbody>
     </table>
-    <!-- <div class="d-flex justify-content-center load-more-outer">
-      <button type="button" class="btn load-more-btn">載入更多</button>
-    </div> -->
+    <div
+      v-show="actionPagi < Math.ceil(listData.length / 8)"
+      class="load-more-outer"
+    >
+      <button
+        type="button"
+        class="btn load-more-btn h8"
+        @click.prevent="loadMoreData"
+      >
+        載入更多
+      </button>
+    </div>
     <!-- Delete Node Modal -->
     <div
       id="del-node-modal"
@@ -109,6 +122,14 @@ import { Modal } from "bootstrap";
 // const route = useRoute();
 const store = useStore();
 const listData = computed<listDataType>(() => store.totalTopoListData);
+const actionPagi = ref<number>(0);
+if (listData.value.length > 0) {
+  actionPagi.value = 1;
+}
+const loadMoreData = () => {
+  actionPagi.value = actionPagi.value + 1;
+};
+
 // 刪除群組燈箱設定
 const delNodeModalRef = ref<HTMLElement | null>(null);
 let delNodeModal = ref<Modal | null>(null);
