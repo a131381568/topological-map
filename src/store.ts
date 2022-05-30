@@ -13,6 +13,8 @@ const versionString =
     ? import.meta.env.VITE_APP_VERSION + "-dev"
     : import.meta.env.VITE_APP_VERSION;
 
+import { Modal } from "bootstrap";
+
 export const useStore = defineStore("main", {
   state: () => ({
     debug: import.meta.env.MODE === "development",
@@ -25,6 +27,9 @@ export const useStore = defineStore("main", {
     totalfloorConversion: <floorConversionType>[],
     floorConversion: <floorConversionType>[],
     loadingModal: false,
+    initTime: 0,
+    alertModal: <Modal | null>null,
+    alertModalMsg: "",
   }),
   actions: {
     initApp() {
@@ -99,11 +104,15 @@ export const useStore = defineStore("main", {
       }
     },
     addGroupToList(groupId: string, groupName: string) {
+      const timestamp = new Date().getTime();
       const groupInfo = {
         groupId: groupId,
         groupName: groupName,
+        time: timestamp,
       };
       this.groupConversion.push(groupInfo);
+      // 儲存至 cache
+      this.saveStoreDataInCache();
     },
     editGroupToList(groupId: string, groupName: string) {
       this.groupConversion.forEach((item) => {
@@ -325,6 +334,8 @@ export const useStore = defineStore("main", {
         }
       });
       this.groupConversion = allGroupList;
+      // 儲存至 cache
+      this.saveStoreDataInCache();
       // 開啟 loading 燈箱
       this.toggleLoadingModal();
     },
@@ -351,6 +362,8 @@ export const useStore = defineStore("main", {
       );
       this.totalfloorConversion = newFloorConversion;
       this.totalTopoListData = newArrayList;
+      // 儲存至 cache
+      this.saveStoreDataInCache();
       // 開啟 loading 燈箱
       this.toggleLoadingModal();
     },
@@ -390,29 +403,65 @@ export const useStore = defineStore("main", {
       this.groupConversion = group.data.data;
       const floor = await topoFloorReq();
       this.totalfloorConversion = floor.data.data;
+      // 儲存資料
+      this.saveStoreDataInCache();
     },
     saveStoreDataInCache() {
       const groupList: groupConversionType = this.groupConversion;
       const floorList: floorConversionType = this.totalfloorConversion;
       const nodeList: listDataType = this.totalTopoListData;
-      localStorage.setItem("topo-group-cache", JSON.stringify(groupList));
-      localStorage.setItem("topo-floor-cache", JSON.stringify(floorList));
-      localStorage.setItem("topo-node-cache", JSON.stringify(nodeList));
-      console.log("Save In Local Browser");
+      const initTime: number = this.initTime;
+      const topoCache = {
+        initTime: initTime,
+        group: groupList,
+        floor: floorList,
+        node: nodeList,
+      };
+      const storeCacheStr = localStorage.getItem("topo-cache");
+      if (storeCacheStr) {
+        const storeCacheObj = JSON.parse(storeCacheStr);
+        const localInitTime = storeCacheObj.initTime;
+        // 存以前先比對 localInitTime 的 initTime
+        if (localInitTime > initTime) {
+          // 不儲存，跳出警示燈箱後初始化。
+          this.showAlertModal(
+            "不同頁籤的時差行為，導致儲存資料不同步，請關閉其它頁面後繼續作業。"
+          );
+          this.initStoreDataByCache();
+        } else {
+          // 確定是最新開的視窗就儲存
+          localStorage.setItem("topo-cache", JSON.stringify(topoCache));
+        }
+      }
     },
-    async initStoreDataByCache() {
-      const groupCache = await localStorage.getItem("topo-group-cache");
-      if (groupCache) {
-        this.groupConversion = JSON.parse(groupCache);
+    initStoreDataByCache() {
+      this.initTime = new Date().getTime();
+      // console.log("initStoreDataByCache: ", this.initTime);
+      const storeCacheStr = localStorage.getItem("topo-cache");
+      if (storeCacheStr) {
+        const storeCacheObj = JSON.parse(storeCacheStr);
+        const groupCache = storeCacheObj.group;
+        const floorCache = storeCacheObj.floor;
+        const nodeCache = storeCacheObj.node;
+        if (groupCache) {
+          this.groupConversion = groupCache;
+        }
+        if (floorCache) {
+          this.totalfloorConversion = floorCache;
+        }
+        if (nodeCache) {
+          this.totalTopoListData = nodeCache;
+        }
       }
-      const floorCache = await localStorage.getItem("topo-floor-cache");
-      if (floorCache) {
-        this.totalfloorConversion = JSON.parse(floorCache);
+    },
+    showAlertModal(msg: string) {
+      if (this.alertModal !== null) {
+        this.alertModalMsg = msg;
+        this.alertModal.show();
       }
-      const nodeCache = await localStorage.getItem("topo-node-cache");
-      if (nodeCache) {
-        this.totalTopoListData = JSON.parse(nodeCache);
-      }
+    },
+    clearAlertModalMsg() {
+      this.alertModalMsg = "";
     },
   },
   getters: {
@@ -446,6 +495,9 @@ export const useStore = defineStore("main", {
     },
     get_loadingModal: (state) => {
       return state.loadingModal;
+    },
+    get_alertModalMsg: (state) => {
+      return state.alertModalMsg;
     },
   },
 });

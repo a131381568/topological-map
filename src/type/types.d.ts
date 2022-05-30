@@ -14,6 +14,7 @@ export type groupListDataType = {
 export type groupConversionType = {
   groupId: string;
   groupName: string;
+  time: number;
 }[];
 
 export type floorConversionType = {

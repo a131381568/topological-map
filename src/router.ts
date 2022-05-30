@@ -62,4 +62,11 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, from, next) => {
+  const store = useStore();
+  // 載入瀏覽器暫存資料
+  store.initStoreDataByCache();
+  next();
+});
+
 export default router;

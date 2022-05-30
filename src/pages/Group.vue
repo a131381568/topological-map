@@ -39,7 +39,7 @@
       </thead>
       <tbody class="border-0">
         <tr
-          v-for="(value, key) in store.get_groupConversion"
+          v-for="(value, key) in groupConversionSort"
           v-show="key < actionPagi * 8"
           :key="key"
         >
@@ -281,11 +281,20 @@
   </main>
 </template>
 <script setup lang="ts">
-// import { listDataType } from "@/type/types";
+import { groupConversionType } from "@/type/types";
 // import { topoList } from "@/api/topological";
 import { Modal } from "bootstrap";
 // const router = useRouter();
 const store = useStore();
+// 群組資料排序
+const groupConversionSort = computed<groupConversionType>(() => {
+  const groupList = store.get_groupConversion;
+  groupList.sort((a, b) => {
+    return b.time - a.time;
+  });
+  return groupList;
+});
+// 活動頁數初始化
 const actionPagi = ref<number>(0);
 const pagiInit = () => {
   if (store.get_groupConversion.length > 0) {

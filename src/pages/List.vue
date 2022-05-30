@@ -123,7 +123,15 @@ import { Modal } from "bootstrap";
 // import { topoList } from "@/api/topological";
 // const route = useRoute();
 const store = useStore();
-const listData = computed<listDataType>(() => store.totalTopoListData);
+// 節點資料排序
+const listData = computed<listDataType>(() => {
+  const topoList = store.totalTopoListData;
+  topoList.sort((a, b) => {
+    return b.time - a.time;
+  });
+  return topoList;
+});
+// 活動頁數初始化
 const actionPagi = ref<number>(0);
 if (listData.value.length > 0) {
   actionPagi.value = 1;
