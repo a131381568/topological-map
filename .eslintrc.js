@@ -31,6 +31,7 @@ module.exports = {
   // plugins: ["vue", "@typescript-eslint/parser"],
   plugins: ["@typescript-eslint", "import", "vue"],
   rules: {
+    "vue/comment-directive": 'off',
     "@typescript-eslint/no-var-requires": 0,
     "no-unused-vars": [0],
     "no-var": "error",
