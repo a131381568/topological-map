@@ -452,6 +452,18 @@ export const useStore = defineStore("main", {
         if (nodeCache) {
           this.totalTopoListData = nodeCache;
         }
+      } else {
+        // 如果 cache 為空就設置預設職
+        const defaultStoreCacheStr = {
+          initTime: this.initTime,
+          group: [],
+          floor: [],
+          node: [],
+        };
+        localStorage.setItem(
+          "topo-cache",
+          JSON.stringify(defaultStoreCacheStr)
+        );
       }
     },
     showAlertModal(msg: string) {
