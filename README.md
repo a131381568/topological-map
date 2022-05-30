@@ -20,6 +20,7 @@
 
 ### 案例 A. 新增群組
 從零開始繪製一張：一階層、一節點的拓樸圖。
+![add-group](https://i.imgur.com/IgBZXQJ.jpg)
 1. 進入首頁。
 2. 點選下方的左邊的**新增群組**，或點選上方選單的**GROUP**，都能到達路由`/group`。
 3. 點選**新增群組**。
@@ -111,14 +112,17 @@
 
 ### A. 資料表關係
 僅僅為 DEMO 功能，並沒有要將資料存回後端，因為沒有後端，所以這邊就介紹資料結構。
-圖片待補...
+此 Type 可在 `/src/type/type.d.ts` 找到對照。
+
+![type](https://i.imgur.com/7qOuAnm.jpg)
+
 
 ### B. Apiary API
 
 目前沒有開後端 Server 串資料庫，範例資料的三支 API 是串 [Apiary](https://toponet.docs.apiary.io/) 的 Mock Server。
-- [節點資料](https://toponet.docs.apiary.io/#/reference/0/all-node/data-in-total-topo-list-data/200?mc=reference%2F0%2Fall-node%2Fdata-in-total-topo-list-data%2F200)
-- [群組對照](https://toponet.docs.apiary.io/#/reference/0/all-group/data-in-group-conversion/200?mc=reference%2F0%2Fall-group%2Fdata-in-group-conversion%2F200)
-- [階層對照](https://toponet.docs.apiary.io/#/reference/0/all-floor/data-in-totalfloor-conversion/200?mc=reference%2F0%2Fall-floor%2Fdata-in-totalfloor-conversion%2F200)
+- [groupConversion ( 群組對照 )](https://toponet.docs.apiary.io/#/reference/0/all-group/data-in-group-conversion/200?mc=reference%2F0%2Fall-group%2Fdata-in-group-conversion%2F200)
+- [floorConversion ( 階層對照 )](https://toponet.docs.apiary.io/#/reference/0/all-floor/data-in-totalfloor-conversion/200?mc=reference%2F0%2Fall-floor%2Fdata-in-totalfloor-conversion%2F200)
+- [nodeList ( 節點資料 )](https://toponet.docs.apiary.io/#/reference/0/all-node/data-in-total-topo-list-data/200?mc=reference%2F0%2Fall-node%2Fdata-in-total-topo-list-data%2F200)
 
 
 ## 六、本機開發（Local Development）

@@ -146,6 +146,8 @@ export const useStore = defineStore("main", {
         (item) => item.groupId !== groupId
       );
       this.totalTopoListData = newTotalTopoListData;
+      // 儲存至 cache
+      this.saveStoreDataInCache();
       // 開啟 loading 燈箱
       this.toggleLoadingModal();
     },
@@ -389,13 +391,35 @@ export const useStore = defineStore("main", {
       const floor = await topoFloorReq();
       this.totalfloorConversion = floor.data.data;
     },
+    saveStoreDataInCache() {
+      const groupList: groupConversionType = this.groupConversion;
+      const floorList: floorConversionType = this.totalfloorConversion;
+      const nodeList: listDataType = this.totalTopoListData;
+      localStorage.setItem("topo-group-cache", JSON.stringify(groupList));
+      localStorage.setItem("topo-floor-cache", JSON.stringify(floorList));
+      localStorage.setItem("topo-node-cache", JSON.stringify(nodeList));
+      console.log("Save In Local Browser");
+    },
+    async initStoreDataByCache() {
+      const groupCache = await localStorage.getItem("topo-group-cache");
+      if (groupCache) {
+        this.groupConversion = JSON.parse(groupCache);
+      }
+      const floorCache = await localStorage.getItem("topo-floor-cache");
+      if (floorCache) {
+        this.totalfloorConversion = JSON.parse(floorCache);
+      }
+      const nodeCache = await localStorage.getItem("topo-node-cache");
+      if (nodeCache) {
+        this.totalTopoListData = JSON.parse(nodeCache);
+      }
+    },
   },
   getters: {
     isReady: (state) => {
       return !state.isInitialized;
     },
     get_groupConversion: (state) => {
-      // console.log("get_groupConversion");
       return state.groupConversion;
     },
     get_singleTopoListData: (state) => {

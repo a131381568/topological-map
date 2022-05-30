@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import TopHeader from "./components/TopHeader.vue";
 const route = useRoute();
+const store = useStore();
 useHead({
   bodyAttrs: {
     title: route.meta.title,
@@ -23,6 +24,22 @@ useHead({
       content: route.meta.title,
     },
   ],
+});
+
+// 載入瀏覽器暫存資料
+store.initStoreDataByCache();
+
+// 暫存函式
+const storeCacheAction = () => {
+  store.saveStoreDataInCache();
+};
+
+onMounted(() => {
+  window.addEventListener("beforeunload", storeCacheAction);
+});
+
+onBeforeUnmount(() => {
+  window.removeEventListener("beforeunload", storeCacheAction);
 });
 </script>
 <style lang="scss">
