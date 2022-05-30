@@ -12,8 +12,8 @@
             :key="key"
             class="floor d-flex justify-content-between align-items-center"
           >
-            <div class="floor-title d-flex h6 mb-0 wdwdwdwd">
-              {{ store.changeFloorName(String(key)) }}
+            <div class="floor-title d-flex h6 mb-0">
+              <span>{{ store.changeFloorName(String(key)) }}</span>
             </div>
             <div class="floor-content d-flex justify-content-around">
               <div
@@ -126,62 +126,6 @@ const topoBoardInit = () => {
     drawLine.attr("y1", ownY - boardDomRectTop + 45);
     drawLine.attr("x2", x - boardDomRectLeft + 45);
     drawLine.attr("y2", y - boardDomRectTop + 45);
-    // // ↑
-    // if (ownY > y && ownX === x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 45);
-    //   drawLine.attr("y2", y - boardDomRectTop + 90 + 30);
-    // }
-    // // ↗
-    // if (ownY > y && ownX < x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 0);
-    //   drawLine.attr("y2", y - boardDomRectTop + 90 + 30);
-    // }
-    // // →
-    // if (ownY === y && ownX < x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft - 15);
-    //   drawLine.attr("y2", y - boardDomRectTop + 45);
-    // }
-    // // ↘
-    // if (ownY < y && ownX < x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 20);
-    //   drawLine.attr("y2", y - boardDomRectTop - 10);
-    // }
-    // // ↓
-    // if (ownY < y && ownX === x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 45);
-    //   drawLine.attr("y2", y - boardDomRectTop - 10);
-    // }
-    // // ↙
-    // if (ownY < y && ownX > x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 65);
-    //   drawLine.attr("y2", y - boardDomRectTop - 10);
-    // }
-    // // ←
-    // if (ownY === y && ownX > x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 90 + 15);
-    //   drawLine.attr("y2", y - boardDomRectTop + 45);
-    // }
-    // // ↖
-    // if (ownY > y && ownX > x) {
-    //   drawLine.attr("x1", ownX - boardDomRectLeft + 45);
-    //   drawLine.attr("y1", ownY - boardDomRectTop + 45);
-    //   drawLine.attr("x2", x - boardDomRectLeft + 90);
-    //   drawLine.attr("y2", y - boardDomRectTop + 90 + 30);
-    // }
   };
   // 宣告畫布
   const topoDom: HTMLElement | null = document.querySelector(

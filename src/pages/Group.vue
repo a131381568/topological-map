@@ -319,6 +319,8 @@ const addGroupAct = () => {
     // 檢查 GroupId 是否重複
     if (store.checkGroupIdIsRepeat(addGroupIdVal.value)) {
       // console.log("有重複");
+      // 跳出警示燈箱
+      store.showAlertModal("群組代號重複。");
     } else {
       // console.log("沒有重複");
       // 確定新增

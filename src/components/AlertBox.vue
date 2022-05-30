@@ -1,5 +1,4 @@
 <template>
-  <!-- ref="alertModalRef" -->
   <div
     id="alert-modal"
     ref="alertModalRef"
@@ -7,6 +6,7 @@
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
+    style="background-color: rgb(0 0 0 / 50%)"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">

@@ -658,6 +658,9 @@ const canLinkMenu = (ownNodeId: string, ownlink: string[]) => {
 const addLinkItem = (nodeId: string, nowLinkLength: number, link: string[]) => {
   if (store.get_singleTopoListLength - 1 > nowLinkLength) {
     handelOpenAddLinkModal(nodeId, link);
+  } else {
+    // 跳出警示燈箱
+    store.showAlertModal("請新增其它節點。");
   }
 };
 const addLinkModalRef = ref<HTMLElement | null>(null);

@@ -15,7 +15,12 @@
         border-bottom: 1px solid $gray-color;
         .floor-title {
           width: 10%;
-          font-weight: 700;
+          span {
+            font-weight: 700;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+          }
         }
         .floor-content {
           width: 90%;
@@ -25,12 +30,19 @@
             height: 90px;
             width: 90px;
             line-height: 90px;
+            margin: 0 auto;
             .server-icon {
               height: 55px;
               path {
                 fill: $white-color;
               }
             }
+          }
+          .server-item-name {
+            width: 120px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
           }
         }
       }
@@ -120,6 +132,13 @@
             cursor: pointer;
             display: flex;
             justify-content: flex-start;
+            overflow: hidden;
+            .topo-floor-title {
+              width: 100%;
+              overflow: hidden;
+              white-space: nowrap;
+              text-overflow: ellipsis;
+            }
             .svg-icon-outer {
               width: 26px;
               fill: $dark-color;
@@ -147,12 +166,18 @@
               .topo-node-title {
                 width: calc(100% - 10px);
                 font-weight: 500;
+                overflow: hidden;
                 .accordion-button {
                   @extend %darkColor;
                   padding: 0;
                   box-shadow: none;
                   border: none;
                   background: none;
+                  width: 100%;
+                  overflow: hidden;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  display: block;
                   &::after {
                     -webkit-filter: sepia(80%); /* Safari */
                     filter: sepia(80%);
@@ -189,6 +214,9 @@
                       margin-bottom: 0.2rem;
                       position: relative;
                       font-weight: 300;
+                      overflow: hidden;
+                      white-space: nowrap;
+                      text-overflow: ellipsis;
                       &:after {
                         position: absolute;
                         right: 0.75rem;
@@ -278,6 +306,9 @@
       border: 1px solid $gray-color;
       width: 100%;
       text-align: left;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
       &:after {
         position: absolute;
         right: 0.75rem;
@@ -286,6 +317,11 @@
     }
     .dropdown-menu {
       width: 100%;
+      .dropdown-item {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
     }
   }
   .modal-header {

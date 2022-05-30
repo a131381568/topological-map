@@ -9,6 +9,7 @@
       font-weight: 300;
       border: none;
       height: 1.5rem;
+      white-space: nowrap;
     }
   }
   tbody {
@@ -19,6 +20,7 @@
         vertical-align: middle;
         height: 1.5rem;
         border-color: $gray-color;
+        word-break: break-all;
         .svg-icon-outer {
           cursor: pointer;
           height: 1.5rem;
@@ -33,6 +35,9 @@
         }
         .del-group-btn {
           padding: 0;
+        }
+        &[data-label="新增時間:"] {
+          white-space: nowrap;
         }
       }
     }
@@ -87,5 +92,8 @@
 @media only screen and (max-width: 767px) {
   .rwd-table.rwd-table.rwd-table.rwd-table td {
     width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 }
