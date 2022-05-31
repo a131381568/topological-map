@@ -71,16 +71,27 @@
 在節點列表介面，刪除匯入的群組——城市大學，裡面的教學樓節點。<br />
 ![remove-node-outer](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/06-2-remove-node-outer.jpg)
 
+---
+
 ### 案例 G. 刪除連線
-刪除匯入的群組——城市大學，裡面的使用者 > 教學樓 > 教學樓中繼的連線。
+刪除匯入的群組——城市大學，裡面的使用者 > 教學樓 > 教學樓中繼的連線。<br />
 ![delete-link](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/07-delete-link.jpg)
 
+---
+
 ### 案例 H. 修改群組名稱
-刪除匯入的群組——城市大學，名稱改成「社會大學」。
-...
+刪除匯入的群組——城市大學，名稱改成「社會大學」。<br />
+![edit-group-name](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/08-edit-group-name.jpg)
+<!-- ... -->
+
+---
 
 ### 案例 I. 修改階層名稱
-...
+刪除匯入的群組——城市大學，裡面的使用者階層，名稱改成「教職員」。<br />
+![edit-floor-name](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/09-edit-floor-name.jpg)
+
+---
 
 ### 案例 J. 修改節點名稱
-...
+刪除匯入的群組——城市大學，使用者階層的教學樓，名稱改成「勤樸樓」。<br />
+![edit-node-name](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/10-edit-node-name.jpg)
