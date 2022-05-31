@@ -19,10 +19,11 @@
 ## 二、操作流程（Flow）
 
 ### A. 案例-新增群組
-從零開始繪製一張：一階層、一節點的拓樸圖。
+從零開始繪製一張：一階層、一節點的拓樸圖。<br />
 ![add-group](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/01-add-group.png)
 
 ### B. 其它案例
+> 可至 [Doc Flow](https://github.com/a131381568/topological-map/tree/main/doc/flow) 查看以下案例
 - 新增階層
 - 新增節點
 - 刪除群組
@@ -32,7 +33,7 @@
 - 修改群組名稱
 - 修改階層名稱
 - 修改節點名稱
-可至 [Doc Flow README](https://github.com/a131381568/topological-map/tree/main/doc/flow) 了解更多
+
 
 
 ## 三、使用技術及套件（NPM）
@@ -47,7 +48,7 @@
 
 
 ## 四、前端路由與組件架構（Vue Router & Component）
-待補...
+![route-component](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/demo/03-route-component.jpg)
 
 
 ## 五、資料結構相關（Data Sheet & Apiary）

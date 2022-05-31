@@ -16,6 +16,10 @@ const routes = [
     },
   },
   {
+    path: "/home",
+    redirect: "/",
+  },
+  {
     path: "/list",
     name: "List",
     component: List,
@@ -54,6 +58,10 @@ const routes = [
     meta: {
       title: "About",
     },
+  },
+  {
+    path: "/:catchAll(.*)",
+    redirect: "/",
   },
 ];
 

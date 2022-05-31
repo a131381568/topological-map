@@ -2,7 +2,7 @@
 # 操作流程（Flow）
 
 ### 案例 A. 新增群組
-從零開始繪製一張：一階層、一節點的拓樸圖。
+從零開始繪製一張：一階層、一節點的拓樸圖。<br />
 ![add-group](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/01-add-group.png)
 <!--
 1. 進入首頁。
@@ -15,7 +15,7 @@
 -->
 
 ### 案例 B. 新增階層
-匯入範例檔案，新增一個階層和一個節點並連線。
+匯入範例檔案，新增一個階層和一個節點並連線。<br />
 ![add-floor](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/02-add-floor.png)
 <!-- 1. 進入首頁。
 2. 點選右邊的**下載**，下載完後，右邊的查看按鈕會從灰色變成綠色。
@@ -27,7 +27,7 @@
 8. 最後按右上角的**儲存修改**，就能夠儲存此拓樸圖了。 -->
 
 ### 案例 C. 新增節點
-匯入範例檔案，新增一個節點並連線。
+匯入範例檔案，新增一個節點並連線。<br />
 ![add-node](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/03-add-node.png)
 <!-- 1. 進入首頁。
 2. 點選右邊的**下載**，下載完後，右邊的查看按鈕會從灰色變成綠色。
@@ -39,7 +39,7 @@
 8. 最後按右上角的**儲存修改**，就能夠儲存此拓樸圖了。 -->
 
 ### 案例 D. 刪除群組
-刪除匯入的群組——城市大學。
+刪除匯入的群組——城市大學。<br />
 ![remove-group](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/04-remove-group.png)
 <!-- 1. 進入首頁。
 2. 點選右邊的**下載**，下載完後，右邊的查看按鈕會從灰色變成綠色。
