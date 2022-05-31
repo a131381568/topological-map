@@ -49,10 +49,15 @@
 6. 點選上方選單的**LIST**，跳到路由`/list`，此節點列表內隸屬城市大學的都已經被刪除了。 -->
 
 ### 案例 E. 刪除階層
-...
+刪除匯入的群組——城市大學，裡面的使用者階層。<br />
+![remove-floor](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/05-remove-floor.jpg)
 
 ### 案例 F. 刪除節點 ( 內部 + 外部 )
-...
+1. 在編輯群組介面，刪除匯入的群組——城市大學，裡面的教學樓節點。
+![remove-node-inner](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/06-1-remove-node-inner.jpg)
+
+2. 在節點列表介面，刪除匯入的群組——城市大學，裡面的教學樓節點。
+![remove-node-outer](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/06-2-remove-node-outer.jpg)
 
 ### 案例 G. 刪除連線
 ...

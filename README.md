@@ -48,7 +48,7 @@
 
 
 ## 四、前端路由與組件架構（Vue Router & Component）
-![route-component](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/demo/03-route-component.jpg)
+![route-component](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/demo/03-route-component-2.jpg)
 
 
 ## 五、資料結構相關（Data Sheet & Apiary）
