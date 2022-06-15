@@ -23,7 +23,7 @@
 ![add-group](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/flow/01-add-group.png)
 
 ### B. 其它案例
-> 可至 [Doc Flow](https://github.com/a131381568/topological-map/tree/main/doc/flow) 查看以下案例
+> 可至 [Doc Flow](https://github.com/a131381568/topological-map/tree/main/doc/flow) 這個資料夾查看以下案例：
 - 新增階層
 - 新增節點
 - 刪除群組
