@@ -10,7 +10,6 @@
 
 此專案目的為使用 Vue3 的資料驅動畫面、雙向綁定和資料流的思考方式，搭配 D3.js 來重構**繪製拓樸圖**的功能。
 
-- 線上 DEMO 站 - [https://www.puraliena.com/](https://www.puraliena.com/)
 ![home](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/demo/01-online-home.png)
 - 編輯拓樸圖
 ![edit](https://raw.githubusercontent.com/a131381568/topological-map/main/doc/demo/02-editer-page.png)
